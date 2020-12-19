@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">AppSimpleMaps</string>
+    <string name="app_name">MPB</string>
+    <string name="val_tv_seleccionar_anio">Seleccionar un año:</string>
+    <string name="val_tv_tcurso">Curso</string>
+    <string name="val_tv_tp">P</string>
+    <string name="val_tv_tn3">N3</string>
+    <string name="val_tv_tn2">N2</string>
+    <string name="val_tv_tn1">N1</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

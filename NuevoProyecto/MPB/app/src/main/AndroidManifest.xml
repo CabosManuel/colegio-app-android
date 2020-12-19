@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MPB">
-        <activity android:name=".ConsultarNotas">
+        <activity android:name=".PerfilEstudiante">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".PerfilApoderado"></activity>
+        <activity android:name=".ConsultarNotas" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

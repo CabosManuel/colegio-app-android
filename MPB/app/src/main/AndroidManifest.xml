@@ -17,10 +17,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-		<activity android:name=".ConsultarNotasActivity"><activity/>
         </activity>
+        <activity android:name=".ConsultarNotasActivity"/>
         <activity android:name=".PerfilApoderado"></activity>
-        <activity android:name=".ConsultarNotas" />
         <activity android:name=".MainActivity" />
     </application>
 

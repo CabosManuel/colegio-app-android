@@ -154,7 +154,9 @@ public class ConsultarNotasActivity extends AppCompatActivity implements View.On
                 System.out.println(jsonArray.get(i).toString());
                 String a = jsonArray.get(i).toString();
                 System.out.println("a = "+a);
-                anios.set(i,a);
+
+                anios.add("nofunciona");
+                anios.add(a);
             }
         }catch(JSONException e){
             e.printStackTrace();

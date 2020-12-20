@@ -6,36 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ConsultarNotasActivity">
 
-
-    <!--EditText
-        android:id="@+id/et_anio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:datePickerMode="spinner"
-        android:hint="Año"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:maxLines="1"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_seleccionar_anio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_seleccionar_anio"
-        app:layout_constraintTop_toTopOf="@+id/tv_seleccionar_anio" /-->
-
     <TextView
         android:id="@+id/tv_seleccionar_anio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/val_tv_seleccionar_anio"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/sp_anio"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_tcurso"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
@@ -43,9 +25,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:textAlignment="gravity"
         app:layout_constraintBottom_toBottomOf="@+id/tv_seleccionar_anio"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_tp"
         app:layout_constraintStart_toEndOf="@+id/tv_seleccionar_anio"
         app:layout_constraintTop_toTopOf="@+id/tv_seleccionar_anio" />
 
@@ -53,8 +37,8 @@
         android:id="@+id/tv_tcurso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="32dp"
         android:text="@string/val_tv_tcurso"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -66,21 +50,19 @@
         android:id="@+id/tv_tp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="48dp"
         android:text="@string/val_tv_tp"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_seleccionar_anio" />
+        app:layout_constraintTop_toTopOf="@+id/tv_tn3" />
 
     <TextView
         android:id="@+id/tv_tn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:text="@string/val_tv_tn3"
         android:textAlignment="textEnd"
@@ -88,13 +70,12 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/tv_tp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_seleccionar_anio" />
+        app:layout_constraintTop_toTopOf="@+id/tv_tn2" />
 
     <TextView
         android:id="@+id/tv_tn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="@string/val_tv_tn2"
         android:textAlignment="textEnd"
@@ -102,13 +83,12 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/tv_tn3"
-        app:layout_constraintTop_toBottomOf="@+id/tv_seleccionar_anio" />
+        app:layout_constraintTop_toTopOf="@+id/tv_tn1" />
 
     <TextView
         android:id="@+id/tv_tn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="@string/val_tv_tn1"
         android:textAlignment="textEnd"
@@ -116,14 +96,12 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/tv_tn2"
-        app:layout_constraintTop_toBottomOf="@+id/tv_seleccionar_anio" />
+        app:layout_constraintTop_toTopOf="@+id/tv_tcurso" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +111,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

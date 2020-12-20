@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MPB">
-        <activity android:name=".PerfilEstudiante">        
+        <activity android:name=".RegistrarJustificacion">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConsultarNotasActivity"/>
-        <activity android:name=".PerfilApoderado"></activity>
+        <activity android:name=".PerfilEstudiante"/>
+        <activity android:name=".ConsultarNotasActivity" />
+        <activity android:name=".PerfilApoderado" />
         <activity android:name=".MainActivity" />
     </application>
 

@@ -48,6 +48,26 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
         holder.tvP.setText(promedio.toString());
     }
 
+    @Override
+    public int getItemCount() {
+        return listaNotas.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvCurso,tvN1,tvN2,tvN3,tvP;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvCurso = itemView.findViewById(R.id.tv_curso);
+            tvN1 = itemView.findViewById(R.id.tv_nota1);
+            tvN2 = itemView.findViewById(R.id.tv_nota2);
+            tvN3 = itemView.findViewById(R.id.tv_nota3);
+            tvP = itemView.findViewById(R.id.tv_promedio);
+        }
+    }
+
+    // Métodos extras
     private void coloerarTextView(TextView[] tvs, Integer[] notas) {
         for(int i=0;i<tvs.length;i++){
             tvs[i].setText(notas[i].toString());
@@ -62,26 +82,5 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
         listaNotas.clear();
         listaNotas.addAll(lista);
         notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount() {
-        return listaNotas.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvCurso,tvN1,tvN2,tvN3,tvP;
-        CardView cardNota;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvCurso = itemView.findViewById(R.id.tv_cruso);
-            tvN1 = itemView.findViewById(R.id.tv_nota1);
-            tvN2 = itemView.findViewById(R.id.tv_nota2);
-            tvN3 = itemView.findViewById(R.id.tv_nota3);
-            tvP = itemView.findViewById(R.id.tv_promedio);
-            cardNota = itemView.findViewById(R.id.card_nota);
-        }
     }
 }

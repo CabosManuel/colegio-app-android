@@ -53,6 +53,12 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
         return listaNotas.size();
     }
 
+    public void agregarNota(ArrayList<Nota> lista){
+        listaNotas.clear();
+        listaNotas.addAll(lista);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvCurso,tvN1,tvN2,tvN3,tvP;
@@ -76,11 +82,5 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
             else
                 tvs[i].setTextColor(ContextCompat.getColor(context, R.color.nota_desaprobada));
         }
-    }
-
-    public void agregarNota(ArrayList<Nota> lista){
-        listaNotas.clear();
-        listaNotas.addAll(lista);
-        notifyDataSetChanged();
     }
 }

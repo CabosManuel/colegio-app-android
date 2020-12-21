@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -34,18 +35,27 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull NotaAdapter.ViewHolder holder, int position) {
-        final Nota objServicio = listaNotas.get(position);
+        final Nota nota = listaNotas.get(position);
 
-        Integer n1 = objServicio.getNota1(),
-                n2 = objServicio.getNota2(),
-                n3 = objServicio.getNota3(),
-                p = Math.round((n1+n2+n3)/3);
+        Integer promedio = (nota.getNota1()+nota.getNota2()+nota.getNota3())/3;
 
-        holder.tvCurso.setText(objServicio.getCurso());
-        holder.tvN1.setText(n1.toString());
-        holder.tvN2.setText(n2.toString());
-        holder.tvN3.setText(n3.toString());
-        holder.tvP.setText(p.toString());
+        holder.tvCurso.setText(nota.getCurso());
+
+        TextView[] tvs = {holder.tvN1,holder.tvN2,holder.tvN3};
+        Integer[] notas = {nota.getNota1(),nota.getNota2(),nota.getNota3()};
+        coloerarTextView(tvs,notas);
+
+        holder.tvP.setText(promedio.toString());
+    }
+
+    private void coloerarTextView(TextView[] tvs, Integer[] notas) {
+        for(int i=0;i<tvs.length;i++){
+            tvs[i].setText(notas[i].toString());
+            if(notas[i]>13)
+                tvs[i].setTextColor(ContextCompat.getColor(context, R.color.nota_aprobada));
+            else
+                tvs[i].setTextColor(ContextCompat.getColor(context, R.color.nota_desaprobada));
+        }
     }
 
     public void agregarNota(ArrayList<Nota> lista){

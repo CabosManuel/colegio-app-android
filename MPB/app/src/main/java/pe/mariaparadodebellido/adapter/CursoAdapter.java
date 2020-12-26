@@ -2,6 +2,9 @@ package pe.mariaparadodebellido.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import pe.mariaparadodebellido.ConsultarAsistenciasActivity;
@@ -41,7 +45,12 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.ViewHolder>{
         Curso curso = listaCursos.get(position);
 
         holder.tvCurso.setText(curso.getNombre());
-
+/*
+        Bitmap bitmap = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_curso_default);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] icono = baos.toByteArray();
+        */
         switch (curso.getNombre()) {
             case "ARTE":
                 break;
@@ -68,7 +77,9 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.ViewHolder>{
             case "INGLÉS":
                 break;
             case "MATEMÁTICA":
+                System.out.println("codigo de icono mat: "+R.drawable.ic_curso_matematica);
                 holder.ivIcono.setImageResource(R.drawable.ic_curso_matematica);
+                holder.ivIcono.setTag(R.drawable.ic_curso_matematica);
                 break;
             case "PERSONAL SOCIAL":
                 break;
@@ -88,7 +99,8 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.ViewHolder>{
                     Intent asistencias = new Intent(context, ConsultarAsistenciasActivity.class);
                     asistencias.putExtra("curso_id", curso.getIdCurso());
                     asistencias.putExtra("descripcion", curso.getNombre());
-                    asistencias.putExtra("icono", (Parcelable) holder.ivIcono.getDrawable());
+                    System.out.println("icono :"+ (Integer) holder.ivIcono.getTag());
+                    asistencias.putExtra("icono", (Integer) holder.ivIcono.getTag());
 
                     context.startActivity(asistencias);
                 }

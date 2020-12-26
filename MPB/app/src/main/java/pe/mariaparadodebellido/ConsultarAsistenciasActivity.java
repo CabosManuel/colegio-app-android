@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,35 +21,33 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import pe.mariaparadodebellido.adapter.AsistenciaAdapter;
 import pe.mariaparadodebellido.model.Asistencia;
 import pe.mariaparadodebellido.util.Url;
 
-// Esta anotación es para que pueda usar la clase LocalDate
+// Esta @Anotación es para que pueda usar la clase LocalDate
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ConsultarAsistenciasActivity extends AppCompatActivity {
 
     private String dniEstudiante = "61933011";
 
-    private TextView tvNFaltas, tvNAsistencias;
+    private Integer cursoId;
+
+    private ImageView ivCurso;
+    private TextView tvCurso, tvNFaltas, tvNAsistencias;
     private Integer nAsistencias = 0, nFaltas = 0; // Contador en 0
 
-    private EditText etFecha;
-    private DateTimeFormatter formatoSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd"), // formato para enviar al WS
-            formatoNormal = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // formato para mostrar al usuario
-    private LocalDate hoy = LocalDate.now();
-    private LocalDate primerDia = hoy.withDayOfMonth(1); // El primer día del més actual
+    private Spinner spMes;
+    private ArrayList<String> meses = new ArrayList<>(); // Array para los meses del spinner
 
     private RecyclerView rvAsistencias;
     private AsistenciaAdapter asistenciaAdapter;
@@ -60,72 +59,38 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_asistencias);
 
+        // Datos traido del Intent en el CursoAdapter ------
+        Bundle datos = getIntent().getExtras();
+        cursoId = datos.getInt("curso_id");
+        Integer icono = datos.getInt("icono");
+        String nombreCurso = datos.getString("nombre");
+        // -------------------------------------------------
+
+        ivCurso = findViewById(R.id.iv_ca_icono_curso);
+        tvCurso = findViewById(R.id.tv_ca_curso);
+        ivCurso.setImageResource(icono);
+        tvCurso.setText(nombreCurso);
+
         tvNFaltas = findViewById(R.id.tv_n_faltas);
         tvNAsistencias = findViewById(R.id.tv_n_asistencias);
 
-        etFecha = findViewById(R.id.et_fecha_asistencia);
-        etFecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Lista vacía nueva y reinicio de contadores cada vez que quiera
-                // elegir una fecha nueva
-                listaAsistencias = new ArrayList<>();
-                nAsistencias = 0;
-                nFaltas = 0;
-
-                mostrarCalendario(etFecha);
-            }
-        });
+        spMes = findViewById(R.id.sp_mes);
+        getMeses(); // Método que llena los meses que tenga el estudiante
 
         // RecyclerView
         rvAsistencias = findViewById(R.id.rv_asistencias);
         rvAsistencias.setLayoutManager(new GridLayoutManager(
-                ConsultarAsistenciasActivity.this, 5));
+                ConsultarAsistenciasActivity.this, 4)); // GridLayoutManager 4: cantidad de cuadraditos
         asistenciaAdapter = new AsistenciaAdapter(ConsultarAsistenciasActivity.this);
         rvAsistencias.setAdapter(asistenciaAdapter);
         listaAsistencias = new ArrayList<>();
 
         queue = Volley.newRequestQueue(this);
-
-        etFecha.setText(hoy.format(formatoNormal)); // Cargo por defecto en el EditText la fecha de hoy
-        getAsistecias(primerDia.format(formatoSQL)); // Consulta al WS por defecto con la fecha actual
     }
 
-    // Variables para el DatePickerDialog
-    private final Calendar FECHA_MAX = Calendar.getInstance();
-    private Calendar cldr = Calendar.getInstance();
-    private DatePickerDialog dtpCalendario;
-
-    private void mostrarCalendario(final EditText txt) {
-        int dia = cldr.get(Calendar.DAY_OF_MONTH);
-        int mes = cldr.get(Calendar.MONTH);
-        int año = cldr.get(Calendar.YEAR);
-
-        dtpCalendario = new DatePickerDialog(ConsultarAsistenciasActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-            /* Este método es lo que pasa cuando selecciona una fecha en el calendario */
-            @Override
-            public void onDateSet(DatePicker view, int añoSeleccionado, int mesSeleccionado, int diaSeleccionado) {
-
-                // Esta parte esporque el mes y día vienen sin el 0 a la izquierda ---------------------------------------------
-                String diaConcatenado = String.valueOf(diaSeleccionado), mesConcatenado = String.valueOf(mesSeleccionado + 1);
-                if (diaSeleccionado < 10) diaConcatenado = "0" + diaSeleccionado;
-                if (mesSeleccionado < 10) mesConcatenado = "0" + mesSeleccionado;
-                // -------------------------------------------------------------------------------------------------------------
-
-                txt.setText(diaConcatenado + "-" + mesConcatenado + "-" + añoSeleccionado); // Mostrar fecha que seleccionó
-                cldr.set(añoSeleccionado, mesSeleccionado, diaSeleccionado); // Persistir en el calendario la fecha que seleccionó
-
-                getAsistecias(añoSeleccionado + "-" + mesConcatenado + "-" + "01"); // Consultar asistencias (siempre desde el primer día)
-            }
-        }, año, mes, dia);
-
-        dtpCalendario.getDatePicker().setMaxDate(FECHA_MAX.getTimeInMillis()); // Fecha máxima (siempre es hoy)
-        dtpCalendario.show(); // Mostrar calendario
-    }
-
-    private void getAsistecias(String fecha) {
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/asistencia/consultar_asistencias?dniEstudiante=" + dniEstudiante + "&fecha=" + fecha + "&?wsdl";
+    private void getConsultarAsistencias(Integer mes) {
+        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/asistencia/consultar_asistencias?dniEstudiante=" + dniEstudiante + "&mes=" + mes + "&cursoId=" + cursoId + "&?wsdl";
+        System.out.println(url);
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -154,17 +119,176 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
                             tvNAsistencias.setText(nAsistencias.toString());
 
                         } catch (JSONException ex) {
-                            Log.e("ErrorVolley", ex.getMessage());
+                            Log.e("ErrorRequest", ex.getMessage());
+                            ex.printStackTrace();
                             Toast.makeText(ConsultarAsistenciasActivity.this, "Error de en el servidor?", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("ErrorRequest", volleyError.getMessage());
+                volleyError.printStackTrace();
+                Log.e("ErrorVolley", volleyError.getMessage());
                 Toast.makeText(ConsultarAsistenciasActivity.this, "Error de conexión?", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);
+    }
+
+    // 1. Método para OPTENER todos lo meses que asistió la estudiante
+    private void getMeses() {
+        String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/asistencia/meses?dniEstudiante="+dniEstudiante+"&?wsdl";
+        queue = Volley.newRequestQueue(ConsultarAsistenciasActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONArray j = null;
+                        JSONArray resultados;
+                        try{
+                            j = new JSONArray(response);
+                            resultados = j;
+                            llenarSpinner(resultados);
+                        }catch (JSONException e){
+                            System.out.println("Fallo al llenarSpinner()");
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                volleyError.printStackTrace();
+                System.out.println("Fallo en getMeses(): " + volleyError.getMessage());
+            }
+        });
+        queue.add(stringRequest);
+    }
+
+    // 2. Método para cargar MESES en spinner + onItemSelectedListener
+    private void llenarSpinner(JSONArray jsonArray){
+        try {
+
+            // for para convertir número de mes a nombre
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String nombreMes="";
+                switch (jsonArray.getInt(i)){
+                    case 1:
+                        nombreMes="Enero";
+                        break;
+                    case 2:
+                        nombreMes="Febrero";
+                        break;
+                    case 3:
+                        nombreMes="Marzo";
+                        break;
+                    case 4:
+                        nombreMes="Abril";
+                        break;
+                    case 5:
+                        nombreMes="Mayo";
+                        break;
+                    case 6:
+                        nombreMes="Junio";
+                        break;
+                    case 7:
+                        nombreMes="Julio";
+                        break;
+                    case 8:
+                        nombreMes="Agosto";
+                        break;
+                    case 9:
+                        nombreMes="Septiembre";
+                        break;
+                    case 10:
+                        nombreMes="Octubre";
+                        break;
+                    case 11:
+                        nombreMes="Noviembre";
+                        break;
+                    case 12:
+                        nombreMes="Diciembre";
+                        break;
+                    default:
+                        nombreMes="No mapeado.";
+                        break;
+                }
+
+                meses.add(nombreMes);
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        spMes.setAdapter(new ArrayAdapter<String>(ConsultarAsistenciasActivity.this,
+                android.R.layout.simple_spinner_dropdown_item, meses));
+
+        // Listener
+        spMes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override // Lo que pasa cuando selecciona un item del spinner
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Integer mes=0;
+                String nombreMes = spMes.getSelectedItem().toString();
+
+                // switch para convertir los nombres de meses a números
+                switch (nombreMes){
+                    case "Enero":
+                        mes=1;
+                        break;
+                    case "Febrero":
+                        mes=2;
+                        break;
+                    case "Marzo":
+                        mes=3;
+                        break;
+                    case "Abril":
+                        mes=4;
+                        break;
+                    case "Mayo":
+                        mes=5;
+                        break;
+                    case "Junio":
+                        mes=6;
+                        break;
+                    case "Julio":
+                        mes=7;
+                        break;
+                    case "Agosto":
+                        mes=8;
+                        break;
+                    case "Septiembre":
+                        mes=9;
+                        break;
+                    case "Octubre":
+                        mes=10;
+                        break;
+                    case "Noviembre":
+                        mes=11;
+                        break;
+                    case "Diciembre":
+                        mes=12;
+                        break;
+                    default:
+                        mes=13;
+                        break;
+                }
+
+                // Reinicio de contador y tarjetas ---
+                nAsistencias=0;
+                nFaltas=0;
+                listaAsistencias = new ArrayList<>();
+                // -----------------------------------
+
+                getConsultarAsistencias(mes);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        // Despues de toda la configuración seleccionar el último més (el más reciente, "en teoría")
+        spMes.setSelection(meses.size()-1);
     }
 }

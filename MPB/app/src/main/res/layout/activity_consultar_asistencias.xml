@@ -17,44 +17,43 @@
 
 
     <ImageView
-        android:id="@+id/iv_consultar_asistencia"
+        android:id="@+id/iv_ca_icono_curso"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/ic_consultar_asistencia"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_consultar_asistencia"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_curso_default"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_ca_curso"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_consultar_asistencia" />
+        app:layout_constraintTop_toTopOf="@+id/tv_ca_curso" />
 
     <TextView
-        android:id="@+id/tv_consultar_asistencia"
+        android:id="@+id/tv_ca_curso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Consultar asistencias"
-        android:textColor="@color/black"
+        android:layout_marginTop="28dp"
+        android:text="MATEMÁTICAS TEST"
+        android:textColor="@color/azul"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/iv_consultar_asistencia"
+        app:layout_constraintStart_toEndOf="@+id/iv_ca_icono_curso"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_seleccion_mes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="32dp"
         android:text="Seleccione un mes:"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/et_fecha_asistencia"
+        app:layout_constraintEnd_toStartOf="@+id/sp_mes"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/tv_n_faltas"
-        app:layout_constraintTop_toBottomOf="@+id/tv_consultar_asistencia" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_ca_curso" />
 
-    <EditText
+    <!--EditText
         android:id="@+id/et_fecha_asistencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,7 +69,22 @@
         app:layout_constraintStart_toEndOf="@+id/tv_seleccion_mes"
         app:layout_constraintTop_toTopOf="@+id/tv_seleccion_mes"
         app:layout_constraintVertical_bias="0.58"
-        tools:text="12-12-2020" />
+        tools:text="12-12-2020" /-->
+
+    <Spinner
+        android:id="@+id/sp_mes"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_seleccion_mes"
+        app:layout_constraintEnd_toEndOf="@+id/tv_n_asistencias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_seleccion_mes"
+        app:layout_constraintTop_toTopOf="@+id/tv_seleccion_mes">
+
+    </Spinner>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
@@ -83,12 +97,13 @@
         android:id="@+id/tv_faltas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:includeFontPadding="false"
         android:text="Faltas"
         android:textAlignment="center"
         android:textColor="@color/rojo_falta"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/tv_seleccion_mes" />
@@ -99,9 +114,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:text="0"
+        android:includeFontPadding="false"
         android:textAlignment="center"
         android:textColor="@color/rojo_falta"
-        android:textSize="64sp"
+        android:textSize="86sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/tv_faltas"
         app:layout_constraintStart_toStartOf="@+id/tv_faltas"
@@ -112,10 +128,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:includeFontPadding="false"
         android:text="Asistencias"
         android:textAlignment="center"
         android:textColor="@color/verde_asistencia"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/tv_faltas" />
@@ -125,16 +142,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
+        android:includeFontPadding="false"
         android:text="0"
         android:textAlignment="center"
         android:textColor="@color/verde_asistencia"
-        android:textSize="64sp"
+        android:textSize="86sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/tv_tasistencias"
         app:layout_constraintStart_toStartOf="@+id/tv_tasistencias"
         app:layout_constraintTop_toBottomOf="@+id/tv_tasistencias" />
 
-    <TextView
+    <!--TextView
         android:id="@+id/tv_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -212,7 +230,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_j"
-        app:layout_constraintTop_toTopOf="@+id/tv_j" />
+        app:layout_constraintTop_toTopOf="@+id/tv_j" /-->
 
     <LinearLayout
         android:layout_width="0dp"
@@ -222,12 +240,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_mi">
+        app:layout_constraintTop_toBottomOf="@+id/tv_n_asistencias">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_asistencias"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16sp"
+            android:layout_marginRight="16sp"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

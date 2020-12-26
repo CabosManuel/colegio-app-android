@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConsultarAsistenciasActivity">
+
+    <!--include
+        android:id="@+id/include_consultar_asistencias"
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /-->
+
+
+    <ImageView
+        android:id="@+id/iv_consultar_asistencia"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_consultar_asistencia"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_consultar_asistencia"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_consultar_asistencia" />
+
+    <TextView
+        android:id="@+id/tv_consultar_asistencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Consultar asistencias"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_consultar_asistencia"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_seleccion_mes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="Seleccione un mes:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/et_fecha_asistencia"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/tv_n_faltas"
+        app:layout_constraintTop_toBottomOf="@+id/tv_consultar_asistencia" />
+
+    <EditText
+        android:id="@+id/et_fecha_asistencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:focusable="false"
+        android:inputType="date"
+        android:textAlignment="center"
+        android:backgroundTint="@color/azul"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_seleccion_mes"
+        app:layout_constraintEnd_toEndOf="@+id/tv_n_asistencias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_seleccion_mes"
+        app:layout_constraintTop_toTopOf="@+id/tv_seleccion_mes"
+        app:layout_constraintVertical_bias="0.58"
+        tools:text="12-12-2020" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_faltas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:text="Faltas"
+        android:textAlignment="center"
+        android:textColor="@color/rojo_falta"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/tv_seleccion_mes" />
+
+    <TextView
+        android:id="@+id/tv_n_faltas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@color/rojo_falta"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_faltas"
+        app:layout_constraintStart_toStartOf="@+id/tv_faltas"
+        app:layout_constraintTop_toBottomOf="@+id/tv_faltas" />
+
+    <TextView
+        android:id="@+id/tv_tasistencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Asistencias"
+        android:textAlignment="center"
+        android:textColor="@color/verde_asistencia"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/tv_faltas" />
+
+    <TextView
+        android:id="@+id/tv_n_asistencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@color/verde_asistencia"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_tasistencias"
+        app:layout_constraintStart_toStartOf="@+id/tv_tasistencias"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tasistencias" />
+
+    <TextView
+        android:id="@+id/tv_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="L"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_ma"
+        app:layout_constraintEnd_toStartOf="@+id/tv_ma"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_ma" />
+
+    <TextView
+        android:id="@+id/tv_ma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="M"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mi"
+        app:layout_constraintEnd_toStartOf="@+id/tv_mi"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_l"
+        app:layout_constraintTop_toTopOf="@+id/tv_mi" />
+
+    <TextView
+        android:id="@+id/tv_mi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="M"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_j"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_ma"
+        app:layout_constraintTop_toBottomOf="@+id/tv_n_faltas" />
+
+    <TextView
+        android:id="@+id/tv_j"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="J"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mi"
+        app:layout_constraintEnd_toStartOf="@+id/tv_v"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_mi"
+        app:layout_constraintTop_toTopOf="@+id/tv_mi" />
+
+    <TextView
+        android:id="@+id/tv_v"
+        android:layout_width="14dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="V"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_j"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_j"
+        app:layout_constraintTop_toTopOf="@+id/tv_j" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mi">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_asistencias"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

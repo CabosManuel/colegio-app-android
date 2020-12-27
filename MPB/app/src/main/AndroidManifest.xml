@@ -21,19 +21,29 @@
             android:label="@string/title_activity_menu_estudiante"
             android:theme="@style/Theme.MPB.NoActionBar" />
         <activity android:name=".ListarJustificacion" />
-        <activity android:name=".ConsultarAsistenciasActivity" />
-        <activity android:name=".ConsultarAsistenciasCusosActivity" />
-        <activity android:name=".PerfilEstudiante" />
-        <activity android:name=".RegistrarJustificacion" />
-        <activity android:name=".ConsultarNotasActivity" >
 
-            <!--
-            intent-filter>
+        <activity android:name=".ConsultarAsistenciasActivity">
+            <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter
-            -->
+            </intent-filter-->
+        </activity>
+        <activity android:name=".ConsultarAsistenciasCusosActivity">
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter-->
+        </activity>
+        <activity android:name=".PerfilEstudiante" />
+        <activity android:name=".RegistrarJustificacion" />
+        <activity android:name=".ConsultarNotasActivity">
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter-->
         </activity>
         <activity android:name=".PerfilApoderado" />
         <activity android:name=".MainActivity" />

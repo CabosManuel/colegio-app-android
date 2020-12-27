@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pe.mariaparadodebellido">
+    package="pe.mariaparadodebellido" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,26 +10,40 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MPB">
-        <activity android:name=".ConsultarAsistenciasActivity">
+        android:theme="@style/Theme.MPB" >
+        <activity
+            android:name=".MenuApoderado"
+            android:label="@string/title_activity_menu_apoderado"
+            android:theme="@style/Theme.MPB.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".MenuEstudiante"
+            android:label="@string/title_activity_menu_estudiante"
+            android:theme="@style/Theme.MPB.NoActionBar" />
+        <activity android:name=".ListarJustificacion" />
+        <activity android:name=".ConsultarAsistenciasActivity" />
+        <activity android:name=".ConsultarAsistenciasCusosActivity" />
+        <activity android:name=".PerfilEstudiante" />
+        <activity android:name=".RegistrarJustificacion" />
+        <activity android:name=".ConsultarNotasActivity" >
+
+            <!--
+            intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter
+            -->
+        </activity>
+        <activity android:name=".PerfilApoderado" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConsultarAsistenciasCusosActivity"/>
-        <activity android:name=".PerfilEstudiante" />
-        <activity android:name=".RegistrarJustificacion" />
-        <activity android:name=".ConsultarNotasActivity">
-            <!--intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter-->
-        </activity>
-        <activity android:name=".PerfilApoderado" />
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

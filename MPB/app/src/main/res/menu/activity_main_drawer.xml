@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inicio"
+            android:icon="@drawable/home2"
+            android:title="Inicio" />
+        <item
+            android:id="@+id/nav_asistencia"
+            android:icon="@drawable/contrato"
+            android:title="Asistencias"/>
+        <item
+            android:id="@+id/nav_notas"
+            android:icon="@drawable/descarga"
+            android:title="Notas"/>
+        <item
+            android:id="@+id/nav_horario"
+            android:icon="@drawable/calendario"
+            android:title="Horario"/>
+        <item
+            android:id="@+id/nav_cerrar"
+            android:icon="@drawable/cerrar_sesion"
+            android:title="Cerrar Sesion"/>
+    </group>
+</menu>

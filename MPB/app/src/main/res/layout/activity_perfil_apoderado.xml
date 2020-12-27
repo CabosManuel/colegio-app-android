@@ -118,7 +118,9 @@
                     android:textColor="#2B2B2B"
                     android:textColorHighlight="#1C1C1C"
                     android:textColorHint="#2B2B2B"
-                    android:textColorLink="#1C1C1C" />
+                    android:textColorLink="#1C1C1C"
+                    android:enabled="false"
+                    android:text="Maria Antonella"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -145,7 +147,9 @@
                     android:shadowColor="#1C1C1C"
                     android:textColor="#2B2B2B"
                     android:textColorHighlight="#1C1C1C"
-                    android:textColorLink="#1C1C1C" />
+                    android:textColorLink="#1C1C1C"
+                    android:enabled="false"
+                    android:text="Rojas Quispe"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -173,7 +177,9 @@
                     android:shadowColor="#1C1C1C"
                     android:textColor="#2B2B2B"
                     android:textColorHighlight="#101010"
-                    android:textColorLink="#1C1C1C" />
+                    android:textColorLink="#1C1C1C"
+                    android:enabled="false"
+                    android:text="71768514"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -201,7 +207,9 @@
                     android:textColor="#2B2B2B"
                     android:textColorHighlight="#121212"
                     android:textColorHint="#1C1C1C"
-                    android:textColorLink="#0E0E0E" />
+                    android:textColorLink="#0E0E0E"
+                    android:enabled="false"
+                    android:text="Rimac"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -229,7 +237,9 @@
                     android:textColor="#2B2B2B"
                     android:textColorHighlight="#1C1C1C"
                     android:textColorHint="#2B2B2B"
-                    android:textColorLink="#1C1C1C" />
+                    android:textColorLink="#1C1C1C"
+                    android:enabled="false"
+                    android:text="Calle Neptuno"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -257,7 +267,9 @@
                     android:textColor="#2B2B2B"
                     android:textColorHighlight="#1C1C1C"
                     android:textColorHint="#2B2B2B"
-                    android:textColorLink="#1C1C1C" />
+                    android:textColorLink="#1C1C1C"
+                    android:enabled="false"
+                    android:text="987654321"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -284,7 +296,9 @@
                     android:textColor="#1C1C1C"
                     android:textColorHighlight="#1C1C1C"
                     android:textColorHint="#1C1C1C"
-                    android:textColorLink="#1C1C1C" />
+                    android:textColorLink="#1C1C1C"
+                    android:enabled="false"
+                    android:text="maria_garcia12@gmail.com"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

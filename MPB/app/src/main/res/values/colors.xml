@@ -28,4 +28,10 @@
     <color name="chip_verde_oscuro">#42C596</color>
     <color name="chip_amarillo">#FFFA8A</color>
     <color name="chip_amarillo_oscuro">#F4DF56</color>
+    <!--estados: P = pendiente (FF9315), V = vencido (FF9315), C = confirmado (14BE58), R = rechazado (F1212B) -->
+    <color name="rojo_pendiente">@color/rojo_falta</color>
+    <color name="naranja_vencido">#FF9315</color>
+    <color name="verde_confirmado">#14BE58</color>
+    <color name="rojo_rechazado">#F1212B</color>
+
 </resources>

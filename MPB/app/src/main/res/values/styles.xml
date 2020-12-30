@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ChipStyleCitation" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_citacion</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIcon">@drawable/ic_check</item>
+    </style>
+
+    <style name="ChipStyleComunicado" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_comunicado</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIcon">@drawable/ic_check</item>
+    </style>
+
+    <style name="ChipStylePermiso" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_permiso</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIcon">@drawable/ic_check</item>
+    </style>
+
+</resources>

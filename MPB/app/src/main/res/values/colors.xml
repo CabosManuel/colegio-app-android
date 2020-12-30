@@ -3,7 +3,6 @@
     <color name="azul">#217aff</color>
     <color name="azul_oscuro">#004fcb</color>
     <color name="azul_claro">#71a8ff</color>
-    <color name="amarillo">#FFFA8A</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
@@ -21,4 +20,12 @@
     <!-- Colores para Consultar asisntecias -->
     <color name="verde_asistencia">#49ED8B</color>
     <color name="rojo_falta">#FF6565</color>
+
+    <!-- Colores para los Chips en "Bandeja de entrada -->
+    <color name="chip_celeste">#92D8FF</color>
+    <color name="chip_celeste_oscuro">#5E94D6</color>
+    <color name="chip_verde">#90F0B6</color>
+    <color name="chip_verde_oscuro">#42C596</color>
+    <color name="chip_amarillo">#FFFA8A</color>
+    <color name="chip_amarillo_oscuro">#F4DF56</color>
 </resources>

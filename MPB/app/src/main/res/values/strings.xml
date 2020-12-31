@@ -15,9 +15,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <!-- Menu -->
+    <string name="valnav_principal">Principal</string>
+    <string name="valnav_cerrar">Cerrar</string>
+    <string name="valnav_horario">Horario</string>
+    <string name="valnav_notas">Notas</string>
+    <string name="valnav_asistencia">Asistencias</string>
     <string name="title_activity_menu_apoderado">MenuApoderado</string>
+
     <string name="parrafo_test">quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed...</string>
+
 </resources>

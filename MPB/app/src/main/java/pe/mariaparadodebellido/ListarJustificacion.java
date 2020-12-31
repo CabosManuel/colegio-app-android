@@ -37,7 +37,7 @@ public class ListarJustificacion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_justificacion);
 
-        rvJustificaciones = findViewById(R.id.recyclerView);
+        rvJustificaciones = findViewById(R.id.rv_datos);
         rvJustificaciones.setLayoutManager(new LinearLayoutManager(ListarJustificacion.this));
         justificacionAdapter = new JustificacionAdapter(ListarJustificacion.this);
         rvJustificaciones.setAdapter(justificacionAdapter);

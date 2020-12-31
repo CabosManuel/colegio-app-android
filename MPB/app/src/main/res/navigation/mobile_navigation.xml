@@ -3,23 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
-
+    app:startDestination="@id/nav_principal">
     <fragment
-        android:id="@+id/nav_home"
-        android:name="pe.mariaparadodebellido.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/nav_principal"
+        android:name="pe.mariaparadodebellido.Fragments.AsistenciaFragment"
+        android:label="@string/valnav_principal"
+        tools:layout="@layout/fragment_asistencia" />
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="pe.mariaparadodebellido.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/nav_cerrar"
+        android:name="pe.mariaparadodebellido.Fragments.CerrarFragment"
+        android:label="@string/valnav_cerrar"
+        tools:layout="@layout/fragment_cerrar" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="pe.mariaparadodebellido.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_asistencia"
+        android:name="pe.mariaparadodebellido.Fragments.InicioFragment"
+        android:label="@string/valnav_asistencia"
+        tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/nav_horario"
+        android:name="pe.mariaparadodebellido.Fragments.HorarioFragment"
+        android:label="@string/valnav_horario"
+        tools:layout="@layout/fragment_horario" />
+    <fragment
+        android:id="@+id/nav_notas"
+        android:name="pe.mariaparadodebellido.Fragments.NotasFragment"
+        android:label="@string/valnav_notas"
+        tools:layout="@layout/fragment_notas" />
 </navigation>

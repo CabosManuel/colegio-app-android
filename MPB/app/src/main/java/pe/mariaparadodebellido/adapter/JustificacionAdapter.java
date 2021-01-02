@@ -1,28 +1,34 @@
 package pe.mariaparadodebellido.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import pe.mariaparadodebellido.ListarJustificacion;
 import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.model.Justificacion;
 
-public class JustificacionAdapter extends RecyclerView.Adapter<JustificacionAdapter.ViewHolder>{
+public class JustificacionAdapter extends  RecyclerView.Adapter<JustificacionAdapter.ViewHolder>{
+
     private Context context;
-    private ArrayList<Justificacion> listaListarJustificacion;
+    private ArrayList<Justificacion> listaJustificaciones;
 
     public JustificacionAdapter(Context context) {
         this.context = context;
-        listaListarJustificacion = new ArrayList<>();
+        listaJustificaciones = new ArrayList<>();
     }
 
     @NonNull
@@ -32,35 +38,39 @@ public class JustificacionAdapter extends RecyclerView.Adapter<JustificacionAdap
         return new JustificacionAdapter.ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull JustificacionAdapter.ViewHolder holder, int position) {
-        final Justificacion listarJustificacion = listaListarJustificacion.get(position);
+        Justificacion justificacion = listaJustificaciones.get(position);
 
-        holder.id_descripcion.setText(listarJustificacion.getDescripcion());
-        holder.id_titulo.setText(listarJustificacion.getTitulo());
-        holder.id_fecha.setText(listarJustificacion.getFecha());
+        holder.etTitulo.setText(justificacion.getTitulo());
+        holder.etDescripcion.setText(justificacion.getDescripcion());
+        
+        // Formato de fecha
+        String fecha = DateTimeFormatter.ofPattern("dd/MM").format(LocalDate.parse(justificacion.getFechaEnvio().substring(0, 10)));
+        String hora = DateTimeFormatter.ofPattern("h:m a").format(LocalTime.parse(justificacion.getFechaEnvio().substring(11)));
+        String fechaEnvio = hora + " " + fecha;
+        holder.etFecha.setText(fechaEnvio);
     }
 
     @Override
     public int getItemCount() {
-        return listaListarJustificacion.size();
+        return listaJustificaciones.size();
     }
 
-    public void agregarJustificacion(ArrayList<Justificacion> lista){
-        listaListarJustificacion.clear();
-        listaListarJustificacion.addAll(lista);
+    public void agregarJustificacion(ArrayList<Justificacion> lista) {
+        listaJustificaciones.clear();
+        listaJustificaciones.addAll(lista);
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView id_titulo,id_fecha,id_descripcion;
-
+        TextView etTitulo, etFecha, etDescripcion;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            id_titulo = itemView.findViewById(R.id.Id_titulo);
-            id_fecha = itemView.findViewById(R.id.id_fecha);
-            id_descripcion = itemView.findViewById(R.id.id_descripcion);
+            etTitulo = itemView.findViewById(R.id.Id_titulo);
+            etFecha = itemView.findViewById(R.id.id_fecha);
+            etDescripcion = itemView.findViewById(R.id.id_descripcion);
         }
     }
 }

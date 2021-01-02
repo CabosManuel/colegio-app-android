@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MPB" >
         <activity android:name=".BandejaEntradaActivity">
-            <intent-filter>
+            <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter-->
         </activity>
         <!--activity
             android:name=".MenuApoderado"
@@ -27,8 +27,13 @@
             android:name=".MenuEstudiante"
             android:label="@string/title_activity_menu_estudiante"
             android:theme="@style/Theme.MPB.NoActionBar" />
-        <activity android:name=".ListarJustificacion" />
+        <activity android:name=".ListarJustificacion" >
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter-->
+        </activity>
         <activity android:name=".ConsultarAsistenciasActivity">
             <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,6 +54,7 @@
         <activity android:name=".PerfilApoderado">
             <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter-->
         </activity>

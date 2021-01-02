@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_shadow_start_color"
+    android:background="@color/azul_oscuro"
     tools:context=".Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,8 +13,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="64dp"
         android:background="@color/azul_claro"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,12 +26,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:text='I.E.E "Maria Parado de Bellido"'
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +43,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/txt_login"
+            app:layout_constraintBottom_toTopOf="@+id/tv_login"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,35 +51,37 @@
             app:srcCompat="@drawable/logo_mpb_sin_fondo" />
 
         <TextView
-            android:id="@+id/txt_login"
+            android:id="@+id/tv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="150dp"
             android:text="Login"
             android:textColor="#FFFFFF"
-            android:textSize="36sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_colegio" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/fondo_blanco"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="180dp"
-            android:background="#C6C4C4"
+            android:layout_marginTop="90dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_login" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_login" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="40dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,24 +89,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_login">
+            app:layout_constraintTop_toBottomOf="@+id/tv_login">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_dni"
+                    android:id="@+id/txt_dni"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="DNI" />
+                    android:background="@color/white"
+                    android:hint="DNI"
+                    android:inputType="number"
+                    android:maxLength="8" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,37 +117,40 @@
                 android:id="@+id/textInputLayout3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="32dp"
-                app:layout_constraintBottom_toTopOf="@+id/btn_iniciar"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_pass"
+                    android:id="@+id/txt_clave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contraseña" />
+                    android:background="@color/white"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:textColorHighlight="@color/azul_claro" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_iniciar"
-                android:layout_width="285dp"
-                android:layout_height="47dp"
-                android:layout_marginBottom="32dp"
-                android:background="#51A6B1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
                 android:text="Iniciar Sesion"
                 android:textColor="#FFFFFF"
-                app:backgroundTint="#51A6B1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
-            <TextView
+            <!--TextView
                 android:id="@+id/mensajeLogin"
                 android:layout_width="336dp"
                 android:layout_height="36dp"
@@ -148,10 +158,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:targetApi="jelly_bean" />
+                tools:targetApi="jelly_bean" /-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

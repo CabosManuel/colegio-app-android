@@ -5,23 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="15dp"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FAE2E2"
-        android:padding="8dp">
+        android:background="@color/rosado_justificación"
+        android:padding="18dp">
 
         <TextView
             android:id="@+id/Id_titulo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="JUSTIFICACION 1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.053"
+            android:layout_marginEnd="8dp"
+            android:text="Justificación #1"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/id_fecha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,21 +31,21 @@
             android:id="@+id/id_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:text="03:16 pm 10/12"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Id_titulo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.881"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/Id_titulo" />
 
         <TextView
             android:id="@+id/id_descripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:fontFamily="sans-serif-light"
             android:text="Buenas tardes, el motivo de la inasistencia de mi menor hija es por motivo de salud. Desde las 7:00 hasta las 7:30 fuimos al hospital porque se sentiía mal, le diagnosticaron una laringitis aguda."
+            android:textColor="@color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.555"

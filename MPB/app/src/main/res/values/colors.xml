@@ -41,4 +41,6 @@
     <color name="verde_confirmado">#14BE58</color>
     <color name="rojo_rechazado">#F1212B</color>
 
+    <!-- Color para Listar justificaciones -->
+    <color name="rosado_justificación">#FFC2C2</color>
 </resources>

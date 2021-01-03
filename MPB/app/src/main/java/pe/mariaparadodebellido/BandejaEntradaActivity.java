@@ -209,7 +209,7 @@ public class BandejaEntradaActivity extends AppCompatActivity implements Compoun
                 Estudiante e = (Estudiante) adapterView.getSelectedItem();
 
                 // Obtener el DNI del estudiante seleccionado y cambiar el dni que se envía a la consulta al WebService
-                dniEstudiante = e.getDni();
+                dniEstudiante = e.getDniEstudiante();
 
                 // Acvitvar todos los chips y consultar
                 cCitationes.setChecked(true);

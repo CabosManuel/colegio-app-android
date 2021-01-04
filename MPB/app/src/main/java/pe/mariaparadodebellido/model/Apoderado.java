@@ -12,6 +12,10 @@ public class Apoderado {
 	private Boolean estado;
 	private Distrito distrito;
 
+	public String getNombreApellido(){
+		return this.nombre + " " + this.apellido;
+	}
+
 	public Apoderado() {
 	}
 	

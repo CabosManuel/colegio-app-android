@@ -10,8 +10,8 @@
             android:title="Inicio" />
         <item
             android:id="@+id/nav_asistencia"
-            android:icon="@drawable/contrato"
-            android:title="Asistencias"/>
+            android:icon="@drawable/ic_consultar_asistencia"
+            android:title="Consultar asistencias"/>
         <item
             android:id="@+id/nav_notas"
             android:icon="@drawable/descarga"

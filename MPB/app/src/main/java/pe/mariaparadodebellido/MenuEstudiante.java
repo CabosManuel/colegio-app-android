@@ -1,13 +1,20 @@
 package pe.mariaparadodebellido;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,40 +23,70 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MenuEstudiante extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import pe.mariaparadodebellido.model.Estudiante;
+
+public class MenuEstudiante extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private TextView tvNombreApellidos, tvCerrarSesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_estudiante);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        View menuNavView = navigationView.getHeaderView(0);
+        tvNombreApellidos = menuNavView.findViewById(R.id.tv_menu_nom_ape);
+        tvCerrarSesion = menuNavView.findViewById(R.id.tv_menu_cerrar_sesion);
+        tvCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = getSharedPreferences("info_usuario",MODE_PRIVATE).edit();
+                editor.clear();
+                editor.commit();
+                startActivity(new Intent(MenuEstudiante.this, Login.class));
+                finish();
+            }
+        });
+
+        //navigationView.setNavigationItemSelectedListener(this);
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio, R.id.nav_asistencia, R.id.nav_horario, R.id.nav_notas, R.id.nav_cerrar).setDrawerLayout(drawer).build();
+                R.id.nav_inicio,
+                R.id.nav_asistencia
+                ,R.id.nav_horario
+                ,R.id.nav_notas
+                ,R.id.nav_perfil
+                //,R.id.nav_cerrar
+                ,R.id.nav_docentes)
+
+                .setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_estudiante, menu);
-        return true;
+
+
+        // Recibir datos del esutiante que está en sesión
+        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
+        Estudiante estudiante = new Estudiante();
+        try {
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
+            estudiante.setNombre(eJson.getString("nombre"));
+            estudiante.setApellido(eJson.getString("apellido"));
+            tvNombreApellidos.setText(estudiante.getNombreApellido());
+        } catch (JSONException e) {
+            Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -58,4 +95,21 @@ public class MenuEstudiante extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    /*
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_asistencia:
+                startActivity(new Intent(MenuEstudiante.this, ConsultarAsistenciasCusosActivity.class));
+                break;
+            default:
+                Toast.makeText(this, "Item no mapeado.", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return true;
+    }
+
+     */
 }

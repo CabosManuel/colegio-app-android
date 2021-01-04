@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConsultarAsistenciasCusosActivity">
+    android:background="@color/Asistencia_Fragment"
+    tools:context=".fragments.ConsultarAsistenciasCursosFragment">
 
     <TextView
         android:id="@+id/tv_tcurso"
@@ -36,6 +37,5 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,17 @@
-package pe.mariaparadodebellido;
+package pe.mariaparadodebellido.fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,12 +27,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.adapter.CursoAdapter;
 import pe.mariaparadodebellido.model.Curso;
-import pe.mariaparadodebellido.model.Estudiante;
 import pe.mariaparadodebellido.util.Url;
 
-public class ConsultarAsistenciasCusosActivity extends AppCompatActivity {
+public class ConsultarAsistenciasCursosFragment extends Fragment {
 
     private String dniEstudiante = /*"61933011"*/"";
 
@@ -36,28 +41,46 @@ public class ConsultarAsistenciasCusosActivity extends AppCompatActivity {
     private RequestQueue queue;
     private ArrayList<Curso> listaCursos;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consultar_asistencias_cursos);
+    /*
+    public ConsultarAsistenciasCursosFragment() {
+        // Required empty public constructor
+    }
 
-        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+
+        }
+    }*/
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View viewFragment = inflater.inflate(R.layout.fragment_consultar_asistencias_cursos,
+                container, false);
+
         try {
+            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
             JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
             dniEstudiante = eJson.getString("dniEstudiante");
 
         } catch (JSONException e) {
-            Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 
-        rvCursos = findViewById(R.id.rv_cursos);
-        rvCursos.setLayoutManager(new LinearLayoutManager(ConsultarAsistenciasCusosActivity.this));
-        cursoAdapter = new CursoAdapter(ConsultarAsistenciasCusosActivity.this);
+        rvCursos = viewFragment.findViewById(R.id.rv_cursos);
+        rvCursos.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        cursoAdapter = new CursoAdapter(this.getContext());
         rvCursos.setAdapter(cursoAdapter);
         listaCursos = new ArrayList<>();
-        
-        queue = Volley.newRequestQueue(this);
+
+        queue = Volley.newRequestQueue(getContext());
         getConsultarCursos();
+
+        return viewFragment;
     }
 
     private void getConsultarCursos() {
@@ -79,14 +102,14 @@ public class ConsultarAsistenciasCusosActivity extends AppCompatActivity {
                             cursoAdapter.agregarCurso(listaCursos);
                         }catch(JSONException ex){
                             Log.e("ErrorVolley", ex.getMessage());
-                            Toast.makeText(ConsultarAsistenciasCusosActivity.this, "Error de en el servidor?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error de en el servidor?", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("ErrorRequest", volleyError.getMessage());
-                Toast.makeText(ConsultarAsistenciasCusosActivity.this, "Error de conexión?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error de conexión?", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);

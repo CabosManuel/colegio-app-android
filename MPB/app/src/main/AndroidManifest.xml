@@ -34,7 +34,6 @@
         </activity>
         <activity android:name=".PerfilEstudiante" />
         <activity android:name=".RegistrarJustificacion" />
-        <activity android:name=".ConsultarNotasActivity"/>
         <activity android:name=".PerfilApoderado">
             <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />

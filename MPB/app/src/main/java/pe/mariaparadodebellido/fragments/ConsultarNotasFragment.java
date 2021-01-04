@@ -1,15 +1,21 @@
-package pe.mariaparadodebellido;
+package pe.mariaparadodebellido.fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,22 +29,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.adapter.NotaAdapter;
 import pe.mariaparadodebellido.model.Nota;
 import pe.mariaparadodebellido.util.Url;
 
-public class ConsultarNotasActivity extends AppCompatActivity{
+public class ConsultarNotasFragment extends Fragment {
 
     private Spinner spAnio;
     private ArrayList<String> anios = new ArrayList<>();
     // Año actual por defecto
-    private String anio =  String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+    private String anio =  String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1); //2020?
 
-    private String dniEstudiante="61933011"; // DNI, debería venir por un Intent o Session?
+    private String dniEstudiante=/*"61933011"*/""; // DNI, debería venir por un Intent o Session?
 
     private RecyclerView rvNotas;
     private NotaAdapter notaAdapter;
@@ -46,26 +52,38 @@ public class ConsultarNotasActivity extends AppCompatActivity{
     private ArrayList<Nota> listaNotas;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consultar_notas);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View viewFragment = inflater.inflate(R.layout.fragment_consultar_notas,
+                container, false);
 
-        spAnio = findViewById(R.id.sp_anio);
+        try {
+            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
+            dniEstudiante = eJson.getString("dniEstudiante");
+
+        } catch (JSONException e) {
+            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
+        }
+
+        spAnio = viewFragment.findViewById(R.id.sp_anio);
         getAnios();
 
-        rvNotas = findViewById(R.id.rv_notas);
-        rvNotas.setLayoutManager(new LinearLayoutManager(ConsultarNotasActivity.this));
-        notaAdapter = new NotaAdapter(ConsultarNotasActivity.this);
+        rvNotas = viewFragment.findViewById(R.id.rv_f_notas);
+        rvNotas.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        notaAdapter = new NotaAdapter(this.getContext());
         rvNotas.setAdapter(notaAdapter);
         listaNotas = new ArrayList<>();
 
-        queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(getContext());
         getConsultarNota();
+
+        return viewFragment;
     }
 
     // Método para listar notas en las tarjetas
     private void getConsultarNota() {
-        String url = "http://"+Url.IP+":"+Url.PUERTO+"/idat/rest/nota/consultar_notas?dniEstudiante="+dniEstudiante+"&anio="+anio+"&?wsdl";
+        String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/nota/consultar_notas?dniEstudiante="+dniEstudiante+"&anio="+anio+"&?wsdl";
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -116,7 +134,7 @@ public class ConsultarNotasActivity extends AppCompatActivity{
     // 1. Método para OPTENER todos lo años del estudiante
     private void getAnios() {
         String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/nota/anios?dniEstudiante="+dniEstudiante+"&?wsdl";
-        queue = Volley.newRequestQueue(ConsultarNotasActivity.this);
+        queue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
                 new Response.Listener<String>() {
                     @Override
@@ -154,7 +172,7 @@ public class ConsultarNotasActivity extends AppCompatActivity{
         }
 
         spAnio.setAdapter(new ArrayAdapter<String>(
-                ConsultarNotasActivity.this, android.R.layout.simple_spinner_dropdown_item, anios));
+                getContext(), android.R.layout.simple_spinner_dropdown_item, anios));
 
         spAnio.setSelection(anios.size()-1);
 

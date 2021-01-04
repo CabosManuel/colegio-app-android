@@ -64,7 +64,7 @@ public class ConsultarAsistenciasCursosFragment extends Fragment {
 
         try {
             SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", "usuario no existe"));
             dniEstudiante = eJson.getString("dniEstudiante");
 
         } catch (JSONException e) {

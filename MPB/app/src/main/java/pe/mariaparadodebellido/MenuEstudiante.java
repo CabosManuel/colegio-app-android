@@ -1,20 +1,13 @@
 package pe.mariaparadodebellido;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,10 +21,10 @@ import org.json.JSONObject;
 
 import pe.mariaparadodebellido.model.Estudiante;
 
-public class MenuEstudiante extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
+public class MenuEstudiante extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private TextView tvNombreApellidos, tvCerrarSesion;
+    private TextView tvNombreApellidos, tvDni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,38 +36,22 @@ public class MenuEstudiante extends AppCompatActivity /*implements NavigationVie
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-
         View menuNavView = navigationView.getHeaderView(0);
-        tvNombreApellidos = menuNavView.findViewById(R.id.tv_menu_nom_ape);
-        tvCerrarSesion = menuNavView.findViewById(R.id.tv_menu_cerrar_sesion);
-        tvCerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = getSharedPreferences("info_usuario",MODE_PRIVATE).edit();
-                editor.clear();
-                editor.commit();
-                startActivity(new Intent(MenuEstudiante.this, Login.class));
-                finish();
-            }
-        });
 
-        //navigationView.setNavigationItemSelectedListener(this);
+        tvNombreApellidos = menuNavView.findViewById(R.id.tv_menu_nom_ape);
+        tvDni = menuNavView.findViewById(R.id.tv_menu_dni);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio,
-                R.id.nav_asistencia
-                ,R.id.nav_horario
-                ,R.id.nav_notas
+                R.id.nav_principal
                 ,R.id.nav_perfil
-                //,R.id.nav_cerrar
-                ,R.id.nav_docentes)
-
-                .setDrawerLayout(drawer).build();
+                ,R.id.nav_consultar_asistencias
+                ,R.id.nav_consultar_notas
+                ,R.id.nav_horario
+                ,R.id.nav_docentes
+                /*,R.id.nav_cerrar_sesion*/).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
 
         // Recibir datos del esutiante que está en sesión
         SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
@@ -83,7 +60,10 @@ public class MenuEstudiante extends AppCompatActivity /*implements NavigationVie
             JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
             estudiante.setNombre(eJson.getString("nombre"));
             estudiante.setApellido(eJson.getString("apellido"));
+            estudiante.setDniEstudiante(eJson.getString("dniEstudiante"));
+
             tvNombreApellidos.setText(estudiante.getNombreApellido());
+            tvDni.setText(estudiante.getDniEstudiante());
         } catch (JSONException e) {
             Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
@@ -95,21 +75,4 @@ public class MenuEstudiante extends AppCompatActivity /*implements NavigationVie
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-    /*
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_asistencia:
-                startActivity(new Intent(MenuEstudiante.this, ConsultarAsistenciasCusosActivity.class));
-                break;
-            default:
-                Toast.makeText(this, "Item no mapeado.", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-        return true;
-    }
-
-     */
 }

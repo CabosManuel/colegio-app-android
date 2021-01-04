@@ -17,21 +17,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import pe.mariaparadodebellido.model.Apoderado;
-import pe.mariaparadodebellido.model.Estudiante;
 import pe.mariaparadodebellido.util.Url;
 
 public class Login extends AppCompatActivity {
 
     private TextInputEditText etDni, etClave;
-    // private TextView mensajeLogin;
     private Button bntLogin;
     private RequestQueue colaPeticiones;
 
@@ -49,8 +45,6 @@ public class Login extends AppCompatActivity {
 
         etDni = findViewById(R.id.txt_dni);
         etClave = findViewById(R.id.txt_clave);
-        //mensajeLogin = findViewById(R.id.mensajeLogin);
-        //mensajeLogin.setText("");
 
         bntLogin = findViewById(R.id.btn_iniciar);
         colaPeticiones = Volley.newRequestQueue(this);
@@ -107,7 +101,9 @@ public class Login extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("Error Conexion Voley", error.getMessage());
+                                Toast.makeText(Login.this, "Error de conexión.", Toast.LENGTH_SHORT).show();
+                                //Log.e("Error Conexion Voley", error.getMessage());
+                                System.err.println("Error Conexion Voley: " + error.getMessage());
                             }
                         }
                 );

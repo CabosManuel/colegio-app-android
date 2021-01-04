@@ -4,5 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Horario_Fragment"
-    tools:context=".Fragments.HorarioFragment">
+    tools:context=".fragments.HorarioFragment">
 </androidx.constraintlayout.widget.ConstraintLayout>

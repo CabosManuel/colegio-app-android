@@ -1,4 +1,4 @@
-package pe.mariaparadodebellido.Fragments;
+package pe.mariaparadodebellido.fragments;
 
 import android.os.Bundle;
 

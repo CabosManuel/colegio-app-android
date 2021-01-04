@@ -6,7 +6,7 @@ public class Estudiante {
     private String dniEstudiante;
     private String nombre;
     private String apellido;
-    private Date fnacimiento;
+    private String fNacimiento;
     private String celular;
     private String correo;
     private String direccion;
@@ -16,6 +16,10 @@ public class Estudiante {
     private Distrito distrito;
     private Apoderado apoderado;
 
+    public String getNombreApellido(){
+        return this.nombre + " " + this.apellido;
+    }
+
     public Estudiante() {
     }
 
@@ -24,18 +28,32 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
-    public Estudiante(String dniEstudiante, String nombre, String apellido, Date fnacimiento, String celular,
-                      String correo, String direccion, String pass, Boolean estado, String condicion) {
+    public Estudiante(String dniEstudiante, String nombre, String apellido, String fNacimiento, String celular, String correo, String direccion, String pass, Boolean estado, String condicion) {
         this.dniEstudiante = dniEstudiante;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.fnacimiento = fnacimiento;
+        this.fNacimiento = fNacimiento;
         this.celular = celular;
         this.correo = correo;
         this.direccion = direccion;
         this.pass = pass;
         this.estado = estado;
         this.condicion = condicion;
+    }
+
+    public Estudiante(String dniEstudiante, String nombre, String apellido, String fNacimiento, String celular, String correo, String direccion, String pass, Boolean estado, String condicion, Distrito distrito, Apoderado apoderado) {
+        this.dniEstudiante = dniEstudiante;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fNacimiento = fNacimiento;
+        this.celular = celular;
+        this.correo = correo;
+        this.direccion = direccion;
+        this.pass = pass;
+        this.estado = estado;
+        this.condicion = condicion;
+        this.distrito = distrito;
+        this.apoderado = apoderado;
     }
 
     public String getDniEstudiante() {
@@ -62,12 +80,12 @@ public class Estudiante {
         this.apellido = apellido;
     }
 
-    public Date getFnacimiento() {
-        return fnacimiento;
+    public String getfNacimiento() {
+        return fNacimiento;
     }
 
-    public void setFnacimiento(Date fnacimiento) {
-        this.fnacimiento = fnacimiento;
+    public void setfNacimiento(String fNacimiento) {
+        this.fNacimiento = fNacimiento;
     }
 
     public String getCelular() {

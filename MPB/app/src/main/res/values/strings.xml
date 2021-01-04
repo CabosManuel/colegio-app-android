@@ -27,5 +27,13 @@
     <string name="valnav_horario">Consultar horario</string>
     <string name="valnav_cerrar">Cerrar sesión</string>
 
+    <!-- Menu apoderado -->
+    <string name="valnav_bandeja_entrada">Bandeja de entrada</string>
+    <string name="valnav_acceder_info_estudiantes">Estudiantes</string>
+    <string name="valnav_registrar_justificaciones">Registrar justificaciones</string>
+    <string name="valnav_listar_justificaciones">Listar justificaciones</string>
+    <string name="valnav_pefil">Perfil</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

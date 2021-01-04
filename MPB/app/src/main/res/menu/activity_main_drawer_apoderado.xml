@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_perfil_apoderado"
+            android:icon="@drawable/usuario"
+            android:title="Perfil"/>
+        <item
+            android:id="@+id/nav_estudiantes"
+            android:icon="@drawable/usuario"
+            android:title="@string/valnav_acceder_info_estudiantes"/>
+        <item
+            android:id="@+id/nav_bandeja_entrada"
+            android:icon="@drawable/ic_bandeja_entrada"
+            android:title="@string/valnav_bandeja_entrada"/>
+        <item
+            android:id="@+id/nav_registrar_justificaciones"
+            android:icon="@drawable/usuario"
+            android:title="@string/valnav_registrar_justificaciones"/>
+        <item
+            android:id="@+id/nav_listar_justificaciones"
+            android:icon="@drawable/usuario"
+            android:title="@string/valnav_listar_justificaciones"/>
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@drawable/cerrar_sesion"
+            android:title="@string/valnav_cerrar" />
+    </group>
+</menu>

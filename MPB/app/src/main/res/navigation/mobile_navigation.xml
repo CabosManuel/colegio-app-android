@@ -27,4 +27,30 @@
     <fragment
         android:id="@+id/nav_cerrar_sesion"
         android:name="pe.mariaparadodebellido.fragments.CerrarSesionFragment"/>
+
+    <fragment
+        android:id="@+id/nav_perfil_apoderado"
+        android:name="pe.mariaparadodebellido.fragments.PerfilApoderadoFragment"
+        android:label="@string/valnav_pefil"
+        tools:layout="@layout/fragment_perfil_apoderado"/>
+    <!--fragment
+        android:id="@+id/nav_estudiantes"
+        android:name="pe.mariaparadodebellido.fragments.AccederInfoEstudiantesFragment"
+        android:label="@string/valnav_acceder_info_estudiantes"
+        tools:layout="@layout/fragment_acceder_info_estudiantes"/-->
+    <fragment
+        android:id="@+id/nav_bandeja_entrada"
+        android:name="pe.mariaparadodebellido.fragments.BandejaEntradaFragment"
+        android:label="@string/valnav_bandeja_entrada"
+        tools:layout="@layout/fragment_bandeja_entrada"/>
+    <!--fragment
+        android:id="@+id/nav_registrar_justificaciones"
+        android:name="pe.mariaparadodebellido.fragments.RegistrarJustificacionesFragment"
+        android:label="@string/valnav_registrar_justificaciones"
+        tools:layout="@layout/fragment_registrar_justificaciones"/-->
+    <fragment
+        android:id="@+id/nav_listar_justificaciones"
+        android:name="pe.mariaparadodebellido.fragments.ListarJustificacionesFragment"
+        android:label="@string/valnav_listar_justificaciones"
+        tools:layout="@layout/fragment_listar_justificaciones"/>
 </navigation>

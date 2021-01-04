@@ -61,11 +61,11 @@
             </intent-filter-->
         </activity>
 
-        <!--activity
+        <activity
             android:name=".MenuApoderado"
             android:label="@string/title_activity_menu_apoderado"
             android:theme="@style/Theme.MPB.NoActionBar" >
-        </activity-->
+        </activity>
 
     </application>
 </manifest>

@@ -5,32 +5,32 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_inicio"
+            android:id="@+id/nav_principal"
             android:icon="@drawable/home2"
             android:title="Inicio" />
-        <item
-            android:id="@+id/nav_asistencia"
-            android:icon="@drawable/ic_consultar_asistencia"
-            android:title="Consultar asistencias"/>
-        <item
-            android:id="@+id/nav_notas"
-            android:icon="@drawable/descarga"
-            android:title="Consultar notas"/>
-        <item
-            android:id="@+id/nav_horario"
-            android:icon="@drawable/calendario"
-            android:title="Consultar horario"/>
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/usuario"
             android:title="Perfil"/>
         <item
+            android:id="@+id/nav_consultar_asistencias"
+            android:icon="@drawable/ic_consultar_asistencia"
+            android:title="@string/valnav_asistencia"/>
+        <item
+            android:id="@+id/nav_consultar_notas"
+            android:icon="@drawable/ic_consultar_notas"
+            android:title="@string/valnav_notas"/>
+        <item
+            android:id="@+id/nav_horario"
+            android:icon="@drawable/calendario"
+            android:title="Consultar horario"/>
+        <item
             android:id="@+id/nav_docentes"
             android:icon="@drawable/usuario"
-            android:title="Listar docentes"/>
-        <!--item
-            android:id="@+id/nav_cerrar"
+            android:title="@string/valnav_listar_docentes"/>
+        <item
+            android:id="@+id/nav_cerrar_sesion"
             android:icon="@drawable/cerrar_sesion"
-            android:title="Cerrar Sesion"/-->
+            android:title="@string/valnav_cerrar" />
     </group>
 </menu>

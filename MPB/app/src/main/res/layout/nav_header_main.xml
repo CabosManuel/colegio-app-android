@@ -34,7 +34,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="María Alexandra"
+        android:text="Nombres Apellidos"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -43,15 +43,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_menu_cerrar_sesion"
+        android:id="@+id/tv_menu_dni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:onClick="onClick"
-        android:text="Cerrar sesión"
-        android:textSize="14sp"
+        android:text="00000000"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/tv_menu_nom_ape" />

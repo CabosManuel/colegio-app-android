@@ -10,23 +10,21 @@
         android:label="@string/valnav_principal"
         tools:layout="@layout/fragment_inicio" />
     <fragment
-        android:id="@+id/nav_cerrar"
-        android:name="pe.mariaparadodebellido.fragments.CerrarFragment"
-        android:label="@string/valnav_cerrar"
-        tools:layout="@layout/fragment_cerrar" />
-    <fragment
-        android:id="@+id/nav_asistencia"
+        android:id="@+id/nav_consultar_asistencias"
         android:name="pe.mariaparadodebellido.fragments.ConsultarAsistenciasCursosFragment"
         android:label="@string/valnav_asistencia"
         tools:layout="@layout/fragment_consultar_asistencias_cursos" />
     <fragment
+        android:id="@+id/nav_consultar_notas"
+        android:name="pe.mariaparadodebellido.fragments.ConsultarNotasFragment"
+        android:label="@string/valnav_notas"
+        tools:layout="@layout/fragment_consultar_notas" />
+    <!--fragment
         android:id="@+id/nav_horario"
         android:name="pe.mariaparadodebellido.fragments.HorarioFragment"
         android:label="@string/valnav_horario"
-        tools:layout="@layout/fragment_horario" />
+        tools:layout="@layout/fragment_horario" /-->
     <fragment
-        android:id="@+id/nav_notas"
-        android:name="pe.mariaparadodebellido.fragments.NotasFragment"
-        android:label="@string/valnav_notas"
-        tools:layout="@layout/fragment_notas" />
+        android:id="@+id/nav_cerrar_sesion"
+        android:name="pe.mariaparadodebellido.fragments.CerrarSesionFragment"/>
 </navigation>

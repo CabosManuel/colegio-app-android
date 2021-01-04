@@ -16,11 +16,12 @@
     <string name="action_settings">Settings</string>
 
     <!-- Menu -->
-    <string name="valnav_principal">Principal</string>
-    <string name="valnav_cerrar">Cerrar</string>
-    <string name="valnav_horario">Consultar horario</string>
+    <string name="valnav_principal">Inicio</string>
     <string name="valnav_notas">Consultar notas</string>
     <string name="valnav_asistencia">Consultar asistencias</string>
+    <string name="valnav_listar_docentes">Listar docentes</string>
+    <string name="valnav_horario">Consultar horario</string>
+    <string name="valnav_cerrar">Cerrar sesión</string>
 
     <string name="title_activity_menu_apoderado">MenuApoderado</string>
 

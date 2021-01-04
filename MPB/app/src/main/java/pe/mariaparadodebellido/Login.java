@@ -37,9 +37,22 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //Validar sesión iniciada y redirigir
-        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
-        if(preferences.contains("usuario")){
-            startActivity(new Intent(Login.this,MenuEstudiante.class));
+        SharedPreferences preferences = getSharedPreferences("info_usuario", MODE_PRIVATE);
+        if (preferences.contains("usuario")) {
+            String tipo = preferences.getString("tipo", "Error al obteber sesión.");
+            switch (tipo) {
+                case "apoderado":
+                    startActivity(new Intent(Login.this, MenuApoderado.class));
+                    break;
+                case "estudiante":
+                    startActivity(new Intent(Login.this, MenuEstudiante.class));
+                    break;
+                default:
+
+                    Toast.makeText(this, tipo, Toast.LENGTH_SHORT).show();
+                    break;
+            }
+
             finish();
         }
 
@@ -68,30 +81,32 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject datosUsuario) {
                                 try {
-                                    if(datosUsuario.getBoolean("rpta")) {
+                                    if (datosUsuario.getBoolean("rpta")) {
 
                                         JSONObject usuarioJson = new JSONObject();
                                         String tipo = datosUsuario.getString("tipo");
-                                        Toast.makeText(Login.this, tipo, Toast.LENGTH_SHORT).show();
-                                        switch (tipo){
+                                        Class tipoMenu = null;
+
+                                        switch (tipo) {
                                             case "apoderado":
                                                 usuarioJson = datosUsuario.getJSONObject("apoderado");
+                                                tipoMenu = MenuApoderado.class;
                                                 break;
                                             case "estudiante":
                                                 usuarioJson = datosUsuario.getJSONObject("estudiante");
-                                                nuevaSesion(usuarioJson.toString());
-                                                finish();
-                                                startActivity(new Intent(Login.this, MenuEstudiante.class));
+                                                tipoMenu = MenuEstudiante.class;
                                                 break;
                                             default:
                                                 Toast.makeText(Login.this, "No esta funcionando...", Toast.LENGTH_SHORT).show();
                                                 break;
                                         }
 
-                                        //finish();
+                                        nuevaSesion(usuarioJson.toString(), tipo);
+                                        startActivity(new Intent(Login.this, tipoMenu));
+                                        finish();
+
                                     } else {
                                         Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
-                                        //mensajeLogin.setText(response.getString("mensaje"));
                                     }
                                 } catch (Exception ex) {
                                     Log.e("Error Conexion Voley", ex.getMessage());
@@ -112,9 +127,10 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void nuevaSesion(String usuario) {
+    private void nuevaSesion(String usuario, String tipo) {
         SharedPreferences.Editor editor = getSharedPreferences("info_usuario", MODE_PRIVATE).edit();
         editor.putString("usuario", usuario);
+        editor.putString("tipo", tipo);
         editor.apply();
     }
 }

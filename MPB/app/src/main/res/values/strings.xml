@@ -18,9 +18,10 @@
     <!-- Menu -->
     <string name="valnav_principal">Principal</string>
     <string name="valnav_cerrar">Cerrar</string>
-    <string name="valnav_horario">Horario</string>
-    <string name="valnav_notas">Notas</string>
-    <string name="valnav_asistencia">Asistencias</string>
+    <string name="valnav_horario">Consultar horario</string>
+    <string name="valnav_notas">Consultar notas</string>
+    <string name="valnav_asistencia">Consultar asistencias</string>
+
     <string name="title_activity_menu_apoderado">MenuApoderado</string>
 
     <string name="parrafo_test">quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed...</string>

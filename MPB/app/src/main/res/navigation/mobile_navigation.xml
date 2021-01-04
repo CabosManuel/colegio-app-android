@@ -6,27 +6,27 @@
     app:startDestination="@id/nav_principal">
     <fragment
         android:id="@+id/nav_principal"
-        android:name="pe.mariaparadodebellido.Fragments.AsistenciaFragment"
+        android:name="pe.mariaparadodebellido.fragments.InicioFragment"
         android:label="@string/valnav_principal"
-        tools:layout="@layout/fragment_asistencia" />
+        tools:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/nav_cerrar"
-        android:name="pe.mariaparadodebellido.Fragments.CerrarFragment"
+        android:name="pe.mariaparadodebellido.fragments.CerrarFragment"
         android:label="@string/valnav_cerrar"
         tools:layout="@layout/fragment_cerrar" />
     <fragment
         android:id="@+id/nav_asistencia"
-        android:name="pe.mariaparadodebellido.Fragments.InicioFragment"
+        android:name="pe.mariaparadodebellido.fragments.ConsultarAsistenciasCursosFragment"
         android:label="@string/valnav_asistencia"
-        tools:layout="@layout/fragment_inicio" />
+        tools:layout="@layout/fragment_consultar_asistencias_cursos" />
     <fragment
         android:id="@+id/nav_horario"
-        android:name="pe.mariaparadodebellido.Fragments.HorarioFragment"
+        android:name="pe.mariaparadodebellido.fragments.HorarioFragment"
         android:label="@string/valnav_horario"
         tools:layout="@layout/fragment_horario" />
     <fragment
         android:id="@+id/nav_notas"
-        android:name="pe.mariaparadodebellido.Fragments.NotasFragment"
+        android:name="pe.mariaparadodebellido.fragments.NotasFragment"
         android:label="@string/valnav_notas"
         tools:layout="@layout/fragment_notas" />
 </navigation>

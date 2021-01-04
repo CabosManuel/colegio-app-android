@@ -1,66 +1,115 @@
 package pe.mariaparadodebellido.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import pe.mariaparadodebellido.R;
+import pe.mariaparadodebellido.adapter.JustificacionAdapter;
+import pe.mariaparadodebellido.model.Justificacion;
+import pe.mariaparadodebellido.util.Url;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListarJustificacionesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListarJustificacionesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private ArrayList<Justificacion> justificaciones = new ArrayList<>();
+    private String dniEstudiante = "61933011";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ListarJustificacionesFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListarJustificacionesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ListarJustificacionesFragment newInstance(String param1, String param2) {
-        ListarJustificacionesFragment fragment = new ListarJustificacionesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private FloatingActionButton fabAgregar;
+    private RecyclerView rvJustificaciones;
+    private JustificacionAdapter justificacionAdapter;
+    private RequestQueue queue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_listar_justificaciones, container, false);
+        View viewFragment = inflater.inflate(R.layout.fragment_listar_justificaciones,
+                container, false);
+
+        /*try {
+            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", "usuario no existe"));
+            dniEstudiante = eJson.getString("dniEstudiante");
+
+        } catch (JSONException e) {
+            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
+        }*/
+
+        rvJustificaciones = viewFragment.findViewById(R.id.rv_justificaciones);
+        rvJustificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
+        justificacionAdapter = new JustificacionAdapter(getContext());
+        rvJustificaciones.setAdapter(justificacionAdapter);
+        justificaciones = new ArrayList<>();
+
+        queue = Volley.newRequestQueue(getContext());
+        getListarJustificaciones();
+
+        fabAgregar = viewFragment.findViewById(R.id.fab_agregar);
+        fabAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Registrar justificación (Sprint 3)", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return viewFragment;
+    }
+
+    private void getListarJustificaciones() {
+        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/justificaciones/listar_justificaciones?dniEstudiante=" + dniEstudiante + "&?wsdl";
+        JsonArrayRequest peticion = new JsonArrayRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        try {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject objjson = jsonArray.getJSONObject(i);
+
+                                justificaciones.add(new Justificacion(
+                                        objjson.getInt("justificacionId"),
+                                        objjson.getString("titulo"),
+                                        objjson.getString("fechaEnvio"),
+                                        objjson.getString("fechaJustificacion"),
+                                        objjson.getString("dniEstudiante"),
+                                        objjson.getString("descripcion")
+                                ));
+                            }
+
+                            justificacionAdapter.agregarJustificacion(justificaciones);
+                        } catch (JSONException ex) {
+                            Log.e("ErrorRequest", ex.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("ErrorVolley", volleyError.getMessage());
+            }
+        });
+        queue.add(peticion);
     }
 }

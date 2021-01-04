@@ -41,14 +41,14 @@ public class MenuApoderado extends AppCompatActivity {
         tvNombreApellidos = menuNavView.findViewById(R.id.tv_menu_nom_ape);
         tvDni = menuNavView.findViewById(R.id.tv_menu_dni);
 
+        // Para asigar acceso directo al menú (el ícono de 3 rallas ≡ en ves de una flecha ←)
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_principal
-                ,R.id.nav_perfil
-                ,R.id.nav_consultar_asistencias
-                ,R.id.nav_consultar_notas
-                ,R.id.nav_horario
-                ,R.id.nav_docentes
-                //,R.id.nav_cerrar_sesion
+                R.id.nav_perfil_apoderado
+                ,R.id.nav_bandeja_entrada
+                ,R.id.nav_estudiantes
+                ,R.id.nav_bandeja_entrada
+                ,R.id.nav_registrar_justificaciones
+                ,R.id.nav_listar_justificaciones
                 ).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);

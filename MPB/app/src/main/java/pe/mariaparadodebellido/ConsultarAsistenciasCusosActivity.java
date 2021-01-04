@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,11 +24,12 @@ import java.util.ArrayList;
 
 import pe.mariaparadodebellido.adapter.CursoAdapter;
 import pe.mariaparadodebellido.model.Curso;
+import pe.mariaparadodebellido.model.Estudiante;
 import pe.mariaparadodebellido.util.Url;
 
 public class ConsultarAsistenciasCusosActivity extends AppCompatActivity {
 
-    private String dniEstudiante = "61933011";
+    private String dniEstudiante = /*"61933011"*/"";
 
     private RecyclerView rvCursos;
     private CursoAdapter cursoAdapter;
@@ -38,6 +40,15 @@ public class ConsultarAsistenciasCusosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_asistencias_cursos);
+
+        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
+        try {
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
+            dniEstudiante = eJson.getString("dniEstudiante");
+
+        } catch (JSONException e) {
+            Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
+        }
 
         rvCursos = findViewById(R.id.rv_cursos);
         rvCursos.setLayoutManager(new LinearLayoutManager(ConsultarAsistenciasCusosActivity.this));

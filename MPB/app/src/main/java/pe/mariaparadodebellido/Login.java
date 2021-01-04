@@ -3,6 +3,7 @@ package pe.mariaparadodebellido;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +17,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import pe.mariaparadodebellido.model.Apoderado;
+import pe.mariaparadodebellido.model.Estudiante;
 import pe.mariaparadodebellido.util.Url;
 
 public class Login extends AppCompatActivity {
@@ -35,6 +39,14 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //Validar sesión iniciada y redirigir
+        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
+        if(preferences.contains("usuario")){
+            startActivity(new Intent(Login.this,MenuEstudiante.class));
+            finish();
+        }
+
         etDni = findViewById(R.id.txt_dni);
         etClave = findViewById(R.id.txt_clave);
         //mensajeLogin = findViewById(R.id.mensajeLogin);
@@ -65,19 +77,24 @@ public class Login extends AppCompatActivity {
                                     if(datosUsuario.getBoolean("rpta")) {
 
                                         JSONObject usuarioJson = new JSONObject();
-                                        switch (datosUsuario.getString("tipo")){
+                                        String tipo = datosUsuario.getString("tipo");
+                                        Toast.makeText(Login.this, tipo, Toast.LENGTH_SHORT).show();
+                                        switch (tipo){
                                             case "apoderado":
                                                 usuarioJson = datosUsuario.getJSONObject("apoderado");
-
                                                 break;
                                             case "estudiante":
-                                                Toast.makeText(Login.this, "3: estudiante", Toast.LENGTH_SHORT).show();
+                                                usuarioJson = datosUsuario.getJSONObject("estudiante");
+                                                nuevaSesion(usuarioJson.toString());
+                                                finish();
+                                                startActivity(new Intent(Login.this, MenuEstudiante.class));
+                                                break;
+                                            default:
+                                                Toast.makeText(Login.this, "No esta funcionando...", Toast.LENGTH_SHORT).show();
                                                 break;
                                         }
-                                        //nuevaSesion(usuarioJson);
 
-                                        startActivity(new Intent(Login.this, ListarJustificacion.class));
-                                        finish();
+                                        //finish();
                                     } else {
                                         Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
                                         //mensajeLogin.setText(response.getString("mensaje"));
@@ -97,5 +114,11 @@ public class Login extends AppCompatActivity {
                 colaPeticiones.add(requerimiento);
             }
         });
+    }
+
+    private void nuevaSesion(String usuario) {
+        SharedPreferences.Editor editor = getSharedPreferences("info_usuario", MODE_PRIVATE).edit();
+        editor.putString("usuario", usuario);
+        editor.apply();
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +39,7 @@ import pe.mariaparadodebellido.util.Url;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ConsultarAsistenciasActivity extends AppCompatActivity {
 
-    private String dniEstudiante = "61933011";
+    private String dniEstudiante = /*"61933011"*/"";
 
     private Integer cursoId;
 
@@ -58,6 +59,15 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_asistencias);
+
+        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
+        try {
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
+            dniEstudiante = eJson.getString("dniEstudiante");
+
+        } catch (JSONException e) {
+            Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
+        }
 
         // Datos traido del Intent en el CursoAdapter ------
         Bundle datos = getIntent().getExtras();

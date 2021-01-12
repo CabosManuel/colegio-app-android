@@ -33,11 +33,18 @@
         android:name="pe.mariaparadodebellido.fragments.PerfilApoderadoFragment"
         android:label="@string/valnav_pefil"
         tools:layout="@layout/fragment_perfil_apoderado"/>
-    <!--fragment
+    <fragment
         android:id="@+id/nav_estudiantes"
-        android:name="pe.mariaparadodebellido.fragments.AccederInfoEstudiantesFragment"
+        android:name="pe.mariaparadodebellido.fragments.AccederInformacionEstudiantesFragment"
         android:label="@string/valnav_acceder_info_estudiantes"
-        tools:layout="@layout/fragment_acceder_info_estudiantes"/-->
+        tools:layout="@layout/fragment_acceder_informacion_estudiantes">
+        <action
+            android:id="@+id/action_nav_estudiantes_to_nav_consultar_notas"
+            app:destination="@id/nav_consultar_notas" />
+        <action
+            android:id="@+id/action_nav_estudiantes_to_nav_consultar_asistencias"
+            app:destination="@id/nav_consultar_asistencias" />
+    </fragment>
     <fragment
         android:id="@+id/nav_bandeja_entrada"
         android:name="pe.mariaparadodebellido.fragments.BandejaEntradaFragment"

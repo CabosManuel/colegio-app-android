@@ -60,12 +60,22 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_asistencias);
 
-        SharedPreferences preferences = getSharedPreferences("info_usuario",MODE_PRIVATE);
         try {
+            SharedPreferences preferences = getSharedPreferences("info_usuario", MODE_PRIVATE);
             JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
-            dniEstudiante = eJson.getString("dniEstudiante");
-
+            try {
+                dniEstudiante = eJson.getString("dniEstudiante");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                //Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
+                try {
+                    dniEstudiante = preferences.getString("dniEstudiante","");
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
         } catch (JSONException e) {
+            e.printStackTrace();
             Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 

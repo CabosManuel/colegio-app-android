@@ -37,6 +37,8 @@ import pe.mariaparadodebellido.adapter.NotaAdapter;
 import pe.mariaparadodebellido.model.Nota;
 import pe.mariaparadodebellido.util.Url;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ConsultarNotasFragment extends Fragment {
 
     private Spinner spAnio;
@@ -58,11 +60,21 @@ public class ConsultarNotasFragment extends Fragment {
                 container, false);
 
         try {
-            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
+            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
             JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
-            dniEstudiante = eJson.getString("dniEstudiante");
-
+            try {
+                dniEstudiante = eJson.getString("dniEstudiante");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                //Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
+                try {
+                    dniEstudiante = preferences.getString("dniEstudiante","");
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
         } catch (JSONException e) {
+            e.printStackTrace();
             Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 

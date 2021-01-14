@@ -96,12 +96,10 @@ public class Login extends AppCompatActivity {
                                                 usuarioJson = datosUsuario.getJSONObject("estudiante");
                                                 tipoMenu = MenuEstudiante.class;
                                                 break;
-                                            default:
-                                                Toast.makeText(Login.this, "No esta funcionando...", Toast.LENGTH_SHORT).show();
-                                                break;
                                         }
 
                                         nuevaSesion(usuarioJson.toString(), tipo);
+                                        Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(Login.this, tipoMenu));
                                         finish();
 
@@ -109,7 +107,7 @@ public class Login extends AppCompatActivity {
                                         Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
                                     }
                                 } catch (Exception ex) {
-                                    Log.e("Error Conexion Voley", ex.getMessage());
+                                    ex.printStackTrace();
                                 }
                             }
                         },
@@ -117,8 +115,7 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(Login.this, "Error de conexión.", Toast.LENGTH_SHORT).show();
-                                //Log.e("Error Conexion Voley", error.getMessage());
-                                System.err.println("Error Conexion Voley: " + error.getMessage());
+                                error.printStackTrace();
                             }
                         }
                 );

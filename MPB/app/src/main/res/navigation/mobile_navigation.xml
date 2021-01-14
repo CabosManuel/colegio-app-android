@@ -19,11 +19,11 @@
         android:name="pe.mariaparadodebellido.fragments.ConsultarNotasFragment"
         android:label="@string/valnav_notas"
         tools:layout="@layout/fragment_consultar_notas" />
-    <!--fragment
+    <fragment
         android:id="@+id/nav_horario"
-        android:name="pe.mariaparadodebellido.fragments.HorarioFragment"
+        android:name="pe.mariaparadodebellido.fragments.ConsultarHorarioFragment"
         android:label="@string/valnav_horario"
-        tools:layout="@layout/fragment_horario" /-->
+        tools:layout="@layout/fragment_consultar_horario" />
     <fragment
         android:id="@+id/nav_cerrar_sesion"
         android:name="pe.mariaparadodebellido.fragments.CerrarSesionFragment"/>

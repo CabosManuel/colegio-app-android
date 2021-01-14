@@ -42,11 +42,11 @@ public class MenuEstudiante extends AppCompatActivity {
         tvDni = menuNavView.findViewById(R.id.tv_menu_dni);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_principal
-                //,R.id.nav_perfil
+                //R.id.nav_principal,
+                R.id.nav_perfil
                 ,R.id.nav_consultar_asistencias
                 ,R.id.nav_consultar_notas
-                //,R.id.nav_horario
+                ,R.id.nav_horario
                 //,R.id.nav_docentes
                 /*,R.id.nav_cerrar_sesion*/).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

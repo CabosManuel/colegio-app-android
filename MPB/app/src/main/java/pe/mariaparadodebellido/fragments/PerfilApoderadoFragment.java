@@ -134,7 +134,6 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
                     public void onResponse(JSONObject datosRespuesta) {
                         try {
                             JSONObject usuarioJson = datosRespuesta.getJSONObject("apoderado");
-                            System.out.println("usuario act: " + usuarioJson);
 
                             // Actualizar datos en sesión
                             SharedPreferences.Editor editor = getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE).edit();

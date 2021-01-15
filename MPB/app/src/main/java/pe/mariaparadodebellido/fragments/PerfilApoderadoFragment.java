@@ -175,54 +175,6 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
         return nuevoApoderadoJson;
     }
 
-    // Método para solicitar distritos de la BD
-    private void getDistritos() {
-        String url = Url.URL_BASE + "/idat/rest/distritos/listar_distritos";
-        colaPeticiones = Volley.newRequestQueue(getContext());
-        JsonArrayRequest peticion = new JsonArrayRequest(
-                Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray jsonArray) {
-                        try {
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject objjson = jsonArray.getJSONObject(i);
-                                distritos.add(new Distrito(
-                                        objjson.getInt("distrito_id"),
-                                        objjson.getString("nombre")
-                                ));
-                            }
-                            cargarSeleccionarDistrito();
-                        } catch (JSONException ex) {
-                            Toast.makeText(getContext(), "Error al cargar distritos.", Toast.LENGTH_SHORT).show();
-                            ex.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
-                error.printStackTrace();
-            }
-        });
-        colaPeticiones.add(peticion);
-    }
-
-    // Método para llenar spinner + capturar y seleccionar en el spinner el distrito de la sesión
-    private void cargarSeleccionarDistrito() {
-        // Llenar spinner
-        spDistritos.setAdapter(new ArrayAdapter</*Distrito*/>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, distritos));
-
-        // Seleccionar en el spinner
-        try {
-            spDistritos.setSelection(apoderadoJson.getInt("distritoId") - 1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error al establecer distrito.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     // Método para habilitar y deshabilitar edición
     private void cambiarEstados(boolean estado) {
         tvNEstudiantes.setFocusable(true); // para ocultar el teclado
@@ -278,5 +230,53 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
         }
 
         return valido;
+    }
+
+    // Método para solicitar distritos de la BD
+    private void getDistritos() {
+        String url = Url.URL_BASE + "/idat/rest/distritos/listar_distritos";
+        colaPeticiones = Volley.newRequestQueue(getContext());
+        JsonArrayRequest peticion = new JsonArrayRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray jsonArray) {
+                        try {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject objjson = jsonArray.getJSONObject(i);
+                                distritos.add(new Distrito(
+                                        objjson.getInt("distrito_id"),
+                                        objjson.getString("nombre")
+                                ));
+                            }
+                            cargarSeleccionarDistrito();
+                        } catch (JSONException ex) {
+                            Toast.makeText(getContext(), "Error al cargar distritos.", Toast.LENGTH_SHORT).show();
+                            ex.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
+            }
+        });
+        colaPeticiones.add(peticion);
+    }
+
+    // Método para llenar spinner + capturar y seleccionar en el spinner el distrito de la sesión
+    private void cargarSeleccionarDistrito() {
+        // Llenar spinner
+        spDistritos.setAdapter(new ArrayAdapter</*Distrito*/>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, distritos));
+
+        // Seleccionar en el spinner
+        try {
+            spDistritos.setSelection(apoderadoJson.getInt("distritoId") - 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error al establecer distrito.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

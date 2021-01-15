@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity {
         bntLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = Url.URL_BASE + "/idat/rest/login_test";
+                String url = Url.URL_BASE + "/idat/rest/login";
 
                 Map<String, String> usuarioMap = new HashMap<>();
                 usuarioMap.put("dni", etDni.getText().toString());

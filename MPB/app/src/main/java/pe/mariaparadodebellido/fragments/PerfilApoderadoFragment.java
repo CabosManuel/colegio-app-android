@@ -43,7 +43,7 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
     // Almacenará en formato JSON los datos en sesión
     private JSONObject apoderadoJson;
 
-    private TextView tvNEstudiantes, tvEstudiantes;
+    private TextView tvNEstudiantes;
     private TextInputEditText etNombres, etApellidos, etDNI,
             etDireccion, etCelular, etCorreo;
     private Button btnEditar, btnGuardar;
@@ -61,7 +61,6 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
         spDistritos.setEnabled(false);
         getDistritos();
 
-        tvEstudiantes = viewFragment.findViewById(R.id.tv_estudiantes);
         tvNEstudiantes = viewFragment.findViewById(R.id.cantidadEstudiantes);
 
         btnEditar = viewFragment.findViewById(R.id.btnAEditar);

@@ -128,7 +128,7 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
         String url = Url.URL_BASE + "/idat/rest/apoderados/editar_perfil/" + dniApoderado;
         JSONObject parametroJson = new JSONObject(capturarDatosActualizados());
         JsonObjectRequest peticion = new JsonObjectRequest(
-                Request.Method.POST, url,
+                Request.Method.PUT, url,
                 parametroJson,
                 new Response.Listener<JSONObject>() {
                     @Override

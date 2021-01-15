@@ -48,11 +48,9 @@ public class Login extends AppCompatActivity {
                     startActivity(new Intent(Login.this, MenuEstudiante.class));
                     break;
                 default:
-
                     Toast.makeText(this, tipo, Toast.LENGTH_SHORT).show();
                     break;
             }
-
             finish();
         }
 
@@ -65,18 +63,15 @@ public class Login extends AppCompatActivity {
         bntLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/login";
+                String url = Url.URL_BASE + "/idat/rest/login_test";
 
-                Map<String, String> usuarioJson = new HashMap<>();
-                usuarioJson.put("dni", etDni.getText().toString());
-                usuarioJson.put("pass", etClave.getText().toString());
+                Map<String, String> usuarioMap = new HashMap<>();
+                usuarioMap.put("dni", etDni.getText().toString());
+                usuarioMap.put("pass", etClave.getText().toString());
+                JSONObject parametroJson = new JSONObject(usuarioMap);
 
-                JSONObject parametroJson = new JSONObject(usuarioJson);
-
-                JsonObjectRequest requerimiento = new JsonObjectRequest(
-                        Request.Method.POST,
-                        url,
-                        parametroJson,
+                JsonObjectRequest peticion = new JsonObjectRequest(
+                        Request.Method.POST, url, parametroJson,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject datosUsuario) {
@@ -85,41 +80,40 @@ public class Login extends AppCompatActivity {
 
                                         JSONObject usuarioJson = new JSONObject();
                                         String tipo = datosUsuario.getString("tipo");
-                                        Class tipoMenu = null;
+                                        Class menu = null;
 
                                         switch (tipo) {
                                             case "apoderado":
                                                 usuarioJson = datosUsuario.getJSONObject("apoderado");
-                                                tipoMenu = MenuApoderado.class;
+                                                menu = MenuApoderado.class;
                                                 break;
                                             case "estudiante":
                                                 usuarioJson = datosUsuario.getJSONObject("estudiante");
-                                                tipoMenu = MenuEstudiante.class;
+                                                menu = MenuEstudiante.class;
                                                 break;
                                         }
 
                                         nuevaSesion(usuarioJson.toString(), tipo);
-                                        Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(Login.this, tipoMenu));
-                                        finish();
 
+                                        Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Login.this, menu));
+                                        finish();
                                     } else {
                                         Toast.makeText(Login.this, datosUsuario.getString("mensaje"), Toast.LENGTH_SHORT).show();
                                     }
                                 } catch (Exception ex) {
+                                    Toast.makeText(Login.this, "Error al iniciar sesión.", Toast.LENGTH_SHORT).show();
                                     ex.printStackTrace();
                                 }
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(Login.this, "Error de conexión.", Toast.LENGTH_SHORT).show();
-                                error.printStackTrace();
-                            }
-                        }
-                );
-                colaPeticiones.add(requerimiento);
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this, "Error de conexión.", Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
+                    }
+                });
+                colaPeticiones.add(peticion);
             }
         });
     }

@@ -5,12 +5,12 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_principal"
+            android:id="@+id/nav_inicio"
             android:icon="@drawable/home2"
             android:title="Inicio" />
         <item
             android:id="@+id/nav_perfil"
-            android:icon="@drawable/usuario"
+            android:icon="@drawable/ic_usuario"
             android:title="Perfil"/>
         <item
             android:id="@+id/nav_consultar_asistencias"
@@ -26,7 +26,7 @@
             android:title="Consultar horario"/>
         <item
             android:id="@+id/nav_docentes"
-            android:icon="@drawable/usuario"
+            android:icon="@drawable/ic_listar_docentes"
             android:title="@string/valnav_listar_docentes"/>
         <item
             android:id="@+id/nav_cerrar_sesion"

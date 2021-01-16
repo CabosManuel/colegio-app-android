@@ -43,8 +43,8 @@ public class MenuApoderado extends AppCompatActivity {
 
         // Para asigar acceso directo al menú (el ícono de 3 rallas ≡ en ves de una flecha ←)
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_perfil_apoderado
-                ,R.id.nav_bandeja_entrada
+                R.id.nav_inicio
+                ,R.id.nav_perfil_apoderado
                 ,R.id.nav_estudiantes
                 ,R.id.nav_bandeja_entrada
                 ,R.id.nav_registrar_justificaciones

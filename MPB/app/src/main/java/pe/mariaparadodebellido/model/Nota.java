@@ -1,7 +1,7 @@
 package pe.mariaparadodebellido.model;
 
 public class Nota {
-    private Double idNota;
+    private Integer idNota;
     private String curso;
     private Double nota1;
     private Double nota2;
@@ -11,7 +11,7 @@ public class Nota {
     public Nota() {
     }
 
-    public Nota(Double idNota, String curso, Double nota1, Double nota2, Double nota3, String fecha) {
+    public Nota(Integer idNota, String curso, Double nota1, Double nota2, Double nota3, String fecha) {
         this.idNota = idNota;
         this.curso = curso;
         this.nota1 = nota1;
@@ -35,11 +35,11 @@ public class Nota {
         this.nota3 = nota3;
     }
 
-    public Double getIdNota() {
+    public Integer getIdNota() {
         return idNota;
     }
 
-    public void setIdNota(Double idNota) {
+    public void setIdNota(Integer idNota) {
         this.idNota = idNota;
     }
 

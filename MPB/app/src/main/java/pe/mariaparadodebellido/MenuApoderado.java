@@ -58,7 +58,7 @@ public class MenuApoderado extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("info_usuario", MODE_PRIVATE);
         Apoderado apoderado = new Apoderado();
         try {
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", ""));
             apoderado.setNombre(eJson.getString("nombre"));
             apoderado.setApellido(eJson.getString("apellido"));
             apoderado.setDniApoderado(eJson.getString("dniApoderado"));

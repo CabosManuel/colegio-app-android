@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
         //Validar sesión iniciada y redirigir
         SharedPreferences preferences = getSharedPreferences("info_usuario", MODE_PRIVATE);
         if (preferences.contains("usuario")) {
-            String tipo = preferences.getString("tipo", "Error al obteber sesión.");
+            String tipo = preferences.getString("tipo", "Error al obtener sesión.");
             switch (tipo) {
                 case "apoderado":
                     startActivity(new Intent(Login.this, MenuApoderado.class));

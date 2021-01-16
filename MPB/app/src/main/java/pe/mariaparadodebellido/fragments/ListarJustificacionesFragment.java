@@ -46,17 +46,7 @@ public class ListarJustificacionesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View viewFragment = inflater.inflate(R.layout.fragment_listar_justificaciones,
-                container, false);
-
-        /*try {
-            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "usuario no existe"));
-            dniEstudiante = eJson.getString("dniEstudiante");
-
-        } catch (JSONException e) {
-            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
-        }*/
+        View viewFragment = inflater.inflate(R.layout.fragment_listar_justificaciones, container, false);
 
         rvJustificaciones = viewFragment.findViewById(R.id.rv_justificaciones);
         rvJustificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -71,7 +61,7 @@ public class ListarJustificacionesFragment extends Fragment {
         fabAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Registrar justificación (Sprint 3)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Registrar justificación (Sprint 4)", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -79,7 +69,7 @@ public class ListarJustificacionesFragment extends Fragment {
     }
 
     private void getListarJustificaciones() {
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/justificaciones/listar_justificaciones?dniEstudiante=" + dniEstudiante + "&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/justificaciones/listar_justificaciones?dniEstudiante=" + dniEstudiante;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -88,7 +78,6 @@ public class ListarJustificacionesFragment extends Fragment {
                         try {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject objjson = jsonArray.getJSONObject(i);
-
                                 justificaciones.add(new Justificacion(
                                         objjson.getInt("justificacionId"),
                                         objjson.getString("titulo"),
@@ -98,16 +87,17 @@ public class ListarJustificacionesFragment extends Fragment {
                                         objjson.getString("descripcion")
                                 ));
                             }
-
                             justificacionAdapter.agregarJustificacion(justificaciones);
                         } catch (JSONException ex) {
-                            Log.e("ErrorRequest", ex.getMessage());
+                            ex.printStackTrace();
+                            Toast.makeText(getContext(), "Error al cargar justificaciones.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("ErrorVolley", volleyError.getMessage());
+                volleyError.printStackTrace();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);

@@ -46,7 +46,7 @@ public class JustificacionAdapter extends  RecyclerView.Adapter<JustificacionAda
         
         // Formato de fecha
         String fecha = DateTimeFormatter.ofPattern("dd/MM").format(LocalDate.parse(justificacion.getFechaEnvio().substring(0, 10)));
-        String hora = DateTimeFormatter.ofPattern("h:m a").format(LocalTime.parse(justificacion.getFechaEnvio().substring(11)));
+        String hora = DateTimeFormatter.ofPattern("hh:mm a").format(LocalTime.parse(justificacion.getFechaEnvio().substring(11)));
         String fechaEnvio = hora + " " + fecha;
         holder.etFecha.setText(fechaEnvio);
     }

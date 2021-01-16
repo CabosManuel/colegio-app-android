@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.model.Nota;
 
-public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
+public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Nota> listaNotas;
@@ -29,7 +29,7 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
     @NonNull
     @Override
     public NotaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_nota,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_nota, parent, false);
         return new ViewHolder(view);
     }
 
@@ -37,13 +37,13 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull NotaAdapter.ViewHolder holder, int position) {
         final Nota nota = listaNotas.get(position);
 
-        Integer promedio = (nota.getNota1()+nota.getNota2()+nota.getNota3())/3;
+        Integer promedio = (int) Math.ceil((nota.getNota1() + nota.getNota2() + nota.getNota3()) / 3);
 
         holder.tvCurso.setText(nota.getCurso());
 
-        TextView[] tvs = {holder.tvN1,holder.tvN2,holder.tvN3};
-        Integer[] notas = {nota.getNota1(),nota.getNota2(),nota.getNota3()};
-        coloerarTextView(tvs,notas);
+        TextView[] tvs = {holder.tvN1, holder.tvN2, holder.tvN3};
+        Double[] notas = {nota.getNota1(), nota.getNota2(), nota.getNota3()};
+        coloerarNotas(tvs, notas);
 
         holder.tvP.setText(promedio.toString());
     }
@@ -53,15 +53,14 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
         return listaNotas.size();
     }
 
-    public void agregarNota(ArrayList<Nota> lista){
+    public void agregarNota(ArrayList<Nota> lista) {
         listaNotas.clear();
         listaNotas.addAll(lista);
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvCurso,tvN1,tvN2,tvN3,tvP;
+        TextView tvCurso, tvN1, tvN2, tvN3, tvP;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,11 +72,11 @@ public class NotaAdapter extends RecyclerView.Adapter<NotaAdapter.ViewHolder>{
         }
     }
 
-    // Métodos extras
-    private void coloerarTextView(TextView[] tvs, Integer[] notas) {
-        for(int i=0;i<tvs.length;i++){
-            tvs[i].setText(notas[i].toString());
-            if(notas[i]>13)
+    // Métodos para colorear si es nota aprobatoria o no
+    private void coloerarNotas(TextView[] tvs, Double[] notas) {
+        for (int i = 0; i < tvs.length; i++) {
+            tvs[i].setText(String.valueOf(Math.round(notas[i])));
+            if (notas[i] > 13)
                 tvs[i].setTextColor(ContextCompat.getColor(context, R.color.nota_aprobada));
             else
                 tvs[i].setTextColor(ContextCompat.getColor(context, R.color.nota_desaprobada));

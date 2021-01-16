@@ -1,17 +1,17 @@
 package pe.mariaparadodebellido.model;
 
 public class Nota {
-    private Integer idNota;
+    private Double idNota;
     private String curso;
-    private Integer nota1;
-    private Integer nota2;
-    private Integer nota3;
+    private Double nota1;
+    private Double nota2;
+    private Double nota3;
     private String fecha;
 
     public Nota() {
     }
 
-    public Nota(Integer idNota, String curso, Integer nota1, Integer nota2, Integer nota3, String fecha) {
+    public Nota(Double idNota, String curso, Double nota1, Double nota2, Double nota3, String fecha) {
         this.idNota = idNota;
         this.curso = curso;
         this.nota1 = nota1;
@@ -20,7 +20,7 @@ public class Nota {
         this.fecha = fecha;
     }
 
-    public Nota(String curso, Integer nota1, Integer nota2, Integer nota3, String fecha) {
+    public Nota(String curso, Double nota1, Double nota2, Double nota3, String fecha) {
         this.curso = curso;
         this.nota1 = nota1;
         this.nota2 = nota2;
@@ -28,18 +28,18 @@ public class Nota {
         this.fecha = fecha;
     }
 
-    public Nota(String curso, Integer nota1, Integer nota2, Integer nota3) {
+    public Nota(String curso, Double nota1, Double nota2, Double nota3) {
         this.curso = curso;
         this.nota1 = nota1;
         this.nota2 = nota2;
         this.nota3 = nota3;
     }
 
-    public Integer getIdNota() {
+    public Double getIdNota() {
         return idNota;
     }
 
-    public void setIdNota(Integer idNota) {
+    public void setIdNota(Double idNota) {
         this.idNota = idNota;
     }
 
@@ -51,27 +51,27 @@ public class Nota {
         this.curso = curso;
     }
 
-    public Integer getNota1() {
+    public Double getNota1() {
         return nota1;
     }
 
-    public void setNota1(Integer nota1) {
+    public void setNota1(Double nota1) {
         this.nota1 = nota1;
     }
 
-    public Integer getNota2() {
+    public Double getNota2() {
         return nota2;
     }
 
-    public void setNota2(Integer nota2) {
+    public void setNota2(Double nota2) {
         this.nota2 = nota2;
     }
 
-    public Integer getNota3() {
+    public Double getNota3() {
         return nota3;
     }
 
-    public void setNota3(Integer nota3) {
+    public void setNota3(Double nota3) {
         this.nota3 = nota3;
     }
     public String getFecha() {

@@ -42,40 +42,42 @@ import static android.content.Context.MODE_PRIVATE;
 public class ConsultarNotasFragment extends Fragment {
 
     private Spinner spAnio;
-    private ArrayList<String> anios = new ArrayList<>();
-    // Año actual por defecto
-    private String anio =  String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1); //2020?
 
-    private String dniEstudiante=/*"61933011"*/""; // DNI, debería venir por un Intent o Session?
+    // Año actual por defecto
+    private String anio = String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - 1); // 2020
+
+    private String dniEstudiante = "";
 
     private RecyclerView rvNotas;
     private NotaAdapter notaAdapter;
-    private RequestQueue queue;
+    private RequestQueue colaPeticiones;
     private ArrayList<Nota> listaNotas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View viewFragment = inflater.inflate(R.layout.fragment_consultar_notas,
-                container, false);
+        View viewFragment = inflater.inflate(R.layout.fragment_consultar_notas, container, false);
 
-        try {
-            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
-            try {
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
+        try { // 1 Tratar de obtener un usuario
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", ""));
+
+            try { // 2 Cuando sea una ESTUDIANTE, capturar su DNI
                 dniEstudiante = eJson.getString("dniEstudiante");
             } catch (JSONException e) {
+                System.err.println("ERROR try 2");
                 e.printStackTrace();
-                //Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
-                try {
-                    dniEstudiante = preferences.getString("dniEstudiante","");
+
+                try { // 3 Cuando sea un APODERADO, capturar el dni seleccionado desde "Acceder a info. estudiantes"
+                    dniEstudiante = preferences.getString("dniEstudiante", "Error al seleccionar estudiante.");
                 } catch (Exception exception) {
+                    System.err.println("ERROR try 3: " + dniEstudiante);
                     exception.printStackTrace();
                 }
             }
         } catch (JSONException e) {
+            System.err.println("ERROR try 1");
             e.printStackTrace();
-            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 
         spAnio = viewFragment.findViewById(R.id.sp_anio);
@@ -87,7 +89,7 @@ public class ConsultarNotasFragment extends Fragment {
         rvNotas.setAdapter(notaAdapter);
         listaNotas = new ArrayList<>();
 
-        queue = Volley.newRequestQueue(getContext());
+        colaPeticiones = Volley.newRequestQueue(getContext());
         getConsultarNota();
 
         return viewFragment;
@@ -95,100 +97,81 @@ public class ConsultarNotasFragment extends Fragment {
 
     // Método para listar notas en las tarjetas
     private void getConsultarNota() {
-        String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/nota/consultar_notas?dniEstudiante="+dniEstudiante+"&anio="+anio+"&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/nota/consultar_notas?dniEstudiante=" + dniEstudiante + "&anio=" + anio;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
-
-                        try{
-                            for (int i = 0; i < jsonArray.length(); i++){
+                        try {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject objjson = jsonArray.getJSONObject(i);
-
-                                /* Código de prueba
-                                System.out.println("Integer[] notas = {null,null,null};");
-                                Integer[] notas = {null,null,null};
-
-                                for(int j=0;j<3;j++){
-                                    if(objjson.get("nota"+(j+1)).toString().equals("null")) {
-                                        System.out.println("es null, pero no va a pasar");
-                                    }else{
-                                        System.out.println("nota"+(j+1)+" = "+objjson.get("nota"+(j+1)));
-                                        notas[j] = Integer.parseInt(objjson.get("nota" + (j + 1)).toString());
-                                    }
-                                }*/
-
                                 listaNotas.add(new Nota(
                                         objjson.getString("curso"),
-                                        objjson.getInt("nota1"),
-                                        objjson.getInt("nota2"),
-                                        objjson.getInt("nota3")
-                                        /*notas[0],
-                                        notas[1],
-                                        notas[2]*/
+                                        objjson.getDouble("nota1"),
+                                        objjson.getDouble("nota2"),
+                                        objjson.getDouble("nota3")
                                 ));
                             }
                             notaAdapter.agregarNota(listaNotas);
-                        }catch(JSONException ex){
-                            Log.e("ErrorVolley", ex.getMessage());
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                            Toast.makeText(getContext(), "Error al cargar notas.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("ErrorRequest", volleyError.getMessage());
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
-        queue.add(peticion);
+        colaPeticiones.add(peticion);
     }
 
-    // 1. Método para OPTENER todos lo años del estudiante
+    // Método para OPTENER todos lo años del estudiante
     private void getAnios() {
-        String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/nota/anios?dniEstudiante="+dniEstudiante+"&?wsdl";
-        queue = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
+        String url = Url.URL_BASE + "/idat/rest/nota/anios?dniEstudiante=" + dniEstudiante;
+        colaPeticiones = Volley.newRequestQueue(getContext());
+        StringRequest peticion = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JSONArray j = null;
-                        JSONArray resultados;
-                        try{
-                            j = new JSONArray(response);
-                            resultados = j;
-                            llenarSpinner(resultados);
-                        }catch (JSONException e){
-                            System.out.println("Fallo en getAnios()");
+                        try {
+                            JSONArray aniosArray = new JSONArray(response);
+                            llenarSpinner(aniosArray);
+                        } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(getContext(), "Error al cargar años.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
-
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                volleyError.printStackTrace();
-                System.out.println("ERROR: " + volleyError.getMessage());
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
-        queue.add(stringRequest);
+        colaPeticiones.add(peticion);
     }
 
-    // 2. Método para cargar años en spinner + onItemSelectedListener
-    private void llenarSpinner(JSONArray jsonArray){
+    // Método para cargar años en spinner + onItemSelectedListener
+    private void llenarSpinner(JSONArray jsonArray) {
+        ArrayList<String> anios = new ArrayList<>();
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 anios.add(jsonArray.get(i).toString());
             }
-        }catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        spAnio.setAdapter(new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_spinner_dropdown_item, anios));
+        // Cargar datos en el spinner
+        spAnio.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, anios));
+        // Seleccionar el ultimo item del spinner (2020)
+        spAnio.setSelection(anios.size() - 1);
 
-        spAnio.setSelection(anios.size()-1);
-
-        // Listener
+        // Agregar Listener
         spAnio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override // Lo que pasa cuando selecciona un item del spinner
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -199,7 +182,6 @@ public class ConsultarNotasFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }

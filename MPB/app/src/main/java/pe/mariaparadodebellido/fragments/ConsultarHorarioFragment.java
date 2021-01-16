@@ -46,23 +46,26 @@ public class ConsultarHorarioFragment extends Fragment {
                              Bundle savedInstanceState) {
         View viewFragment = inflater.inflate(R.layout.fragment_consultar_horario, container, false);
 
-        try {
-            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
-            try {
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
+        try { // 1 Tratar de obtener un usuario
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", ""));
+
+            try { // 2 Cuando sea una ESTUDIANTE, capturar su DNI
                 dniEstudiante = eJson.getString("dniEstudiante");
             } catch (JSONException e) {
+                System.err.println("ERROR try 2");
                 e.printStackTrace();
-                //Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
-                try {
-                    dniEstudiante = preferences.getString("dniEstudiante", "");
+
+                try { // 3 Cuando sea un APODERADO, capturar el dni seleccionado desde "Acceder a info. estudiantes"
+                    dniEstudiante = preferences.getString("dniEstudiante", "Error al seleccionar estudiante.");
                 } catch (Exception exception) {
+                    System.err.println("ERROR try 3: " + dniEstudiante);
                     exception.printStackTrace();
                 }
             }
         } catch (JSONException e) {
+            System.err.println("ERROR try 1");
             e.printStackTrace();
-            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 
         rvHorario = viewFragment.findViewById(R.id.rv_horario);
@@ -78,7 +81,7 @@ public class ConsultarHorarioFragment extends Fragment {
     }
 
     private void getHorario() {
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/horariodetalle/consultar_horario?dniEstudiante=" + dniEstudiante + "&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/horariodetalle/consultar_horario?dniEstudiante=" + dniEstudiante;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

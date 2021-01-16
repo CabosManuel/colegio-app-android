@@ -42,6 +42,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.ViewHold
     public void onBindViewHolder(@NonNull HorarioAdapter.ViewHolder holder, int position) {
         HorarioDetalle detalle = horario.get(position);
 
+        // cuando no sea lunes y el día sea diferente al anterior
         if (position > 0 && detalle.getDia().equals(horario.get(position - 1).getDia())) {
             holder.tvDia.setVisibility(View.INVISIBLE);
             holder.tvFecha.setVisibility(View.INVISIBLE);
@@ -82,11 +83,13 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.ViewHold
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private TemporalAccessor calcularFecha(String dia) {
+        // siempre calcular cuando que fecha a partir de hoy es lunes
         LocalDate lunes = null;
         for (int i = 0; LocalDate.now().getDayOfWeek().getValue() - i > 0 ; i++) {
             lunes = LocalDate.now().minusDays(i);
         }
 
+        // switch para aumentar días al lunes calculado
         int adelanto = 0;
         switch (dia) {
             case "MARTES":

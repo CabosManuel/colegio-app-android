@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_nav_estudiantes_to_nav_consultar_asistencias"
             app:destination="@id/nav_consultar_asistencias" />
+        <action
+            android:id="@+id/action_nav_estudiantes_to_nav_horario"
+            app:destination="@id/nav_horario" />
     </fragment>
     <fragment
         android:id="@+id/nav_bandeja_entrada"

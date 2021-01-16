@@ -53,12 +53,15 @@ public class InfoEstudianteAdapter extends RecyclerView.Adapter<InfoEstudianteAd
         holder.tvNombres.setText(estudiante.getNombre());
         holder.tvApellidos.setText(estudiante.getApellido());
 
+        SharedPreferences.Editor editor = context.getSharedPreferences("info_usuario", MODE_PRIVATE).edit();
+        editor.putString("dniEstudiante", estudiante.getDniEstudiante());
+        editor.apply();
+
         holder.btnConsultarNotas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Redirige al otro fragmente a traves de un "action", este action está en res/navegation/mobile_navegation.xml
                 Navigation.findNavController(view).navigate(R.id.action_nav_estudiantes_to_nav_consultar_notas);
-                agregarDni(estudiante.getDniEstudiante());
             }
         });
 
@@ -66,16 +69,13 @@ public class InfoEstudianteAdapter extends RecyclerView.Adapter<InfoEstudianteAd
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_nav_estudiantes_to_nav_consultar_asistencias);
-                agregarDni(estudiante.getDniEstudiante());
             }
         });
 
         holder.btnConsultarHorario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Pendiente", Toast.LENGTH_SHORT).show();
-                //Navigation.findNavController(view).navigate(R.id.);
-                agregarDni(estudiante.getDniEstudiante());
+                Navigation.findNavController(view).navigate(R.id.action_nav_estudiantes_to_nav_horario);
             }
         });
 
@@ -84,7 +84,6 @@ public class InfoEstudianteAdapter extends RecyclerView.Adapter<InfoEstudianteAd
             public void onClick(View view) {
                 Toast.makeText(context, "Listar docentes (Sprint 4)", Toast.LENGTH_SHORT).show();
                 //Navigation.findNavController(view).navigate(R.id.);
-                agregarDni(estudiante.getDniEstudiante());
             }
         });
 
@@ -93,18 +92,9 @@ public class InfoEstudianteAdapter extends RecyclerView.Adapter<InfoEstudianteAd
             public void onClick(View view) {
                 Toast.makeText(context, "Pendiente", Toast.LENGTH_SHORT).show();
                 //Navigation.findNavController(view).navigate(R.id.);
-                agregarDni(estudiante.getDniEstudiante());
             }
         });
     }
-
-    // Almacenar el dni en otra parte de la sesión
-    private void agregarDni(String dni) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("info_usuario", MODE_PRIVATE).edit();
-        editor.putString("dniEstudiante", dni);
-        editor.apply();
-    }
-
 
     @Override
     public int getItemCount() {

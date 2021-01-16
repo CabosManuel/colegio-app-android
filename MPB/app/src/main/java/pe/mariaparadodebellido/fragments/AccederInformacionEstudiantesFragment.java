@@ -36,11 +36,11 @@ import pe.mariaparadodebellido.util.Url;
 
 public class AccederInformacionEstudiantesFragment extends Fragment {
 
-    private String dniApoderado = /*"06662516"*/"";
+    private String dniApoderado = "";
 
     private RecyclerView rvinfoEstudiante;
     private InfoEstudianteAdapter infoEstudianteAdapter;
-    private RequestQueue queue;
+    private RequestQueue colaPeticiones;
     private ArrayList<Estudiante> estudiantes;
 
     @Override
@@ -68,9 +68,9 @@ public class AccederInformacionEstudiantesFragment extends Fragment {
 
     private void getEstudiantes() {
         estudiantes = new ArrayList<>(); // Reiniciar lista
-        queue = Volley.newRequestQueue(getContext());
+        colaPeticiones = Volley.newRequestQueue(getContext());
 
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/apoderados/estudiantes?dniApoderado=" + dniApoderado + "&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/apoderados/estudiantes?dniApoderado=" + dniApoderado;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -90,19 +90,17 @@ public class AccederInformacionEstudiantesFragment extends Fragment {
                                 infoEstudianteAdapter.agregarInfoEstudiantes(estudiantes);
                             }
                         } catch (JSONException ex) {
-                            Log.e("ErrorRequest", ex.getMessage());
                             ex.printStackTrace();
-                            Toast.makeText(getContext(), "Error de en el servidor?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error al cargar estudiantes.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
-                System.err.println("getCause: "+volleyError.getCause());
-                Toast.makeText(getContext(), "Error de conexión?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
-        queue.add(peticion);
+        colaPeticiones.add(peticion);
     }
 }

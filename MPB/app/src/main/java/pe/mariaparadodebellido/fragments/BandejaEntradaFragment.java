@@ -41,7 +41,7 @@ import pe.mariaparadodebellido.util.Url;
 
 public class BandejaEntradaFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
-    private String dniApoderado = /*"06662516"*/"";
+    private String dniApoderado = "";
     private String dniEstudiante = "";
 
     private String t1 = "x", t2 = "x", t3 = "x"; // Variables para la consulta al WebService
@@ -61,14 +61,12 @@ public class BandejaEntradaFragment extends Fragment implements CompoundButton.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View viewFragment = inflater.inflate(R.layout.fragment_bandeja_entrada,
-                container, false);
+        View viewFragment = inflater.inflate(R.layout.fragment_bandeja_entrada, container, false);
 
         try {
             SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
             JSONObject eJson = new JSONObject(preferences.getString("usuario", "usuario no existe"));
             dniApoderado = eJson.getString("dniApoderado");
-
         } catch (JSONException e) {
             Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
@@ -91,7 +89,7 @@ public class BandejaEntradaFragment extends Fragment implements CompoundButton.O
         notificacionAdapter = new NotificacionAdapter(getContext());
         rvNotificaciones.setAdapter(notificacionAdapter);
 
-        // Consultar con todos los chips activados al abrir Activity
+        // Hacer una consulta por defecto con todos los chips activados
         cCitationes.setChecked(true);
         cComunicados.setChecked(true);
         cPermisos.setChecked(true);
@@ -131,10 +129,8 @@ public class BandejaEntradaFragment extends Fragment implements CompoundButton.O
 
     private void getNotificaciones() {
         listaNotificaciones = new ArrayList<>(); // Reiniciar lista
-
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/apoderados/bandeja_entrada"+
-                "?dniEstudiante=" + dniEstudiante +
-                "&tipo1=" + t1 + "&tipo2=" + t2 + "&tipo3=" + t3 + "&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/apoderados/bandeja_entrada" +
+                "?dniEstudiante=" + dniEstudiante + "&tipo1=" + t1 + "&tipo2=" + t2 + "&tipo3=" + t3;
         queue = Volley.newRequestQueue(getContext());
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
@@ -153,35 +149,31 @@ public class BandejaEntradaFragment extends Fragment implements CompoundButton.O
                                 n.setDescripcion(objjson.getString("descripcion"));
                                 n.setDniEstudiante(objjson.getString("dniEstudiante"));
 
-                                // Cuando no sea un comunicado agregar el estado y fecha limite
+                                // Cuando NO SEA UN COMUNICADO agregar el estado y fecha limite
                                 if (!n.getTipo().equals("comunicado")) {
                                     n.setFechaLimite(objjson.getString("fechaLimite"));
                                     n.setEstado(objjson.getString("estado").charAt(0));
                                 }
-
                                 listaNotificaciones.add(n);
-
                                 notificacionAdapter.agregarNotificaciones(listaNotificaciones);
                             }
                         } catch (JSONException ex) {
-                            Log.e("ErrorRequest", ex.getMessage());
                             ex.printStackTrace();
-                            Toast.makeText(getContext(), "Error de en el servidor?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error al cargar notificaciones.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
-                Log.e("ErrorVolley", volleyError.getMessage());
-                Toast.makeText(getContext(), "Error de conexión?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);
     }
 
     private void getEstudiantes() {
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/apoderados/nombre_estudiantes/" + dniApoderado + "?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/apoderados/nombre_estudiantes/" + dniApoderado;
         queue = Volley.newRequestQueue(getContext());
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
@@ -196,35 +188,31 @@ public class BandejaEntradaFragment extends Fragment implements CompoundButton.O
                                         objjson.getString("nombre")
                                 ));
                             }
-
                             llenarSpinner();
-
                         } catch (JSONException ex) {
                             Log.e("ErrorRequest", ex.getMessage());
                             ex.printStackTrace();
-                            Toast.makeText(getContext(), "Error de en el servidor?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error al cargar estudiantes.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
-                Log.e("ErrorVolley", volleyError.getMessage());
-                Toast.makeText(getContext(), "Error de conexión?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);
     }
 
     private void llenarSpinner() {
-        /** ArrayAdapter<Estudiante>: Almacena un lista de objectos Estudiante (en el que almaceno el
-         *  id y nombre, se podría almacenar más).
-         *
+        /*
          *  Elspinner se llena solo con el "nombre" porque al model Estudiante se le está sobreescribiendo
          *  el método "toString()" que indica que solo se llene con ese, sucede algo como esto:
+         *
          *                 ArrayAdapter<Estudiante> = ArrayAdapter<Estudiante.toString()>
          */
-        spEstudiantes.setAdapter(new ArrayAdapter<Estudiante>(getContext(), android.R.layout.simple_spinner_dropdown_item, estudiantes));
+        spEstudiantes.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, estudiantes));
 
         // Listener
         spEstudiantes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

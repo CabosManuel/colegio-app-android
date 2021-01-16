@@ -52,14 +52,30 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
 
         // Formato de fecha
         String fecha = DateTimeFormatter.ofPattern("dd/MM").format(LocalDate.parse(n.getFechaEnvio().substring(0, 10)));
-        String hora = DateTimeFormatter.ofPattern("h:m a").format(LocalTime.parse(n.getFechaEnvio().substring(11)));
+        String hora = DateTimeFormatter.ofPattern("hh:mm a").format(LocalTime.parse(n.getFechaEnvio().substring(11)));
         String fechaEnvio = hora + " " + fecha;
         holder.tvFecha.setText(fechaEnvio);
 
         holder.tvEstado.setVisibility(View.VISIBLE);
         holder.ivEstado.setVisibility(View.VISIBLE);
 
-        // Cuando la notificación tenga "estado"
+        // switch para color de fondo segun tipo notificaciones
+        switch (n.getTipo()) {
+            case "comunicado":
+                // Los comunicados no tienen estado, por eso se ocultan estos elementos:
+                holder.tvEstado.setVisibility(View.INVISIBLE);
+                holder.ivEstado.setVisibility(View.INVISIBLE);
+                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_amarillo));
+                break;
+            case "citacion":
+                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_verde));
+                break;
+            case "permiso":
+                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_celeste));
+                break;
+        }
+
+        // Cuando la notificación tenga "estado" (permiso y citación)
         if (n.getEstado() != null) {
             String estado = "";
             int color = 0;
@@ -102,22 +118,6 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
             holder.ivEstado.setImageResource(icono);
             holder.tvEstado.setText(estado);
             holder.tvEstado.setTextColor(ContextCompat.getColor(context, color));
-        }
-
-        // switch para tipos de notificaciones
-        switch (n.getTipo()) {
-            case "comunicado":
-                // Los comunicados no tienen estado, por eso se ocultan estos elementos:
-                holder.tvEstado.setVisibility(View.INVISIBLE);
-                holder.ivEstado.setVisibility(View.INVISIBLE);
-                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_amarillo));
-                break;
-            case "citacion":
-                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_verde));
-                break;
-            case "permiso":
-                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_celeste));
-                break;
         }
     }
 

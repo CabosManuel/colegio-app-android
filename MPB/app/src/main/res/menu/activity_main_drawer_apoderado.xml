@@ -9,6 +9,10 @@
             android:icon="@drawable/home2"
             android:title="Inicio" />
         <item
+            android:id="@+id/nav_perfil_apoderado"
+            android:icon="@drawable/ic_usuario"
+            android:title="@string/valnav_pefil" />
+        <item
             android:id="@+id/nav_estudiantes"
             android:icon="@drawable/ic_estudiantes"
             android:title="@string/valnav_acceder_info_estudiantes"/>

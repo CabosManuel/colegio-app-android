@@ -36,51 +36,39 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ConsultarAsistenciasCursosFragment extends Fragment {
 
-    private String dniEstudiante = /*"61933011"*/"";
+    private String dniEstudiante = "";
 
     private RecyclerView rvCursos;
     private CursoAdapter cursoAdapter;
-    private RequestQueue queue;
+    private RequestQueue colaPeticiones;
     private ArrayList<Curso> listaCursos;
-
-    /*
-    public ConsultarAsistenciasCursosFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View viewFragment = inflater.inflate(R.layout.fragment_consultar_asistencias_cursos,
-                container, false);
+        View viewFragment = inflater.inflate(R.layout.fragment_consultar_asistencias_cursos, container, false);
 
-        try {
-            SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
-            try {
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
+        try { // 1 Tratar de obtener un usuario
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", ""));
+
+            try { // 2 Cuando sea una ESTUDIANTE, capturar su DNI
                 dniEstudiante = eJson.getString("dniEstudiante");
             } catch (JSONException e) {
+                System.err.println("ERROR try 2");
                 e.printStackTrace();
-                //Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
-                try {
-                    dniEstudiante = preferences.getString("dniEstudiante","");
+
+                try { // 3 Cuando sea un APODERADO, capturar el dni seleccionado desde "Acceder a info. estudiantes"
+                    dniEstudiante = preferences.getString("dniEstudiante", "Error al seleccionar estudiante.");
                 } catch (Exception exception) {
+                    System.err.println("ERROR try 3: " + dniEstudiante);
                     exception.printStackTrace();
                 }
             }
         } catch (JSONException e) {
+            System.err.println("ERROR try 1");
             e.printStackTrace();
-            Toast.makeText(getContext(), "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 
         rvCursos = viewFragment.findViewById(R.id.rv_cursos);
@@ -89,21 +77,21 @@ public class ConsultarAsistenciasCursosFragment extends Fragment {
         rvCursos.setAdapter(cursoAdapter);
         listaCursos = new ArrayList<>();
 
-        queue = Volley.newRequestQueue(getContext());
+        colaPeticiones = Volley.newRequestQueue(getContext());
         getConsultarCursos();
 
         return viewFragment;
     }
 
     private void getConsultarCursos() {
-        String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/curso/listar?dniEstudiante="+dniEstudiante+"&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/curso/listar?dniEstudiante=" + dniEstudiante;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
-                        try{
-                            for (int i = 0; i < jsonArray.length(); i++){
+                        try {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject CursoJson = jsonArray.getJSONObject(i);
 
                                 listaCursos.add(new Curso(
@@ -112,18 +100,18 @@ public class ConsultarAsistenciasCursosFragment extends Fragment {
                                 ));
                             }
                             cursoAdapter.agregarCurso(listaCursos);
-                        }catch(JSONException ex){
-                            Log.e("ErrorVolley", ex.getMessage());
-                            Toast.makeText(getContext(), "Error de en el servidor?", Toast.LENGTH_SHORT).show();
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                            Toast.makeText(getContext(), "Error al cargar asistencias.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("ErrorRequest", volleyError.getMessage());
-                Toast.makeText(getContext(), "Error de conexión?", Toast.LENGTH_SHORT).show();
+                volleyError.printStackTrace();
+                Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
-        queue.add(peticion);
+        colaPeticiones.add(peticion);
     }
 }

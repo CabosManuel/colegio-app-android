@@ -39,7 +39,7 @@ import pe.mariaparadodebellido.util.Url;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ConsultarAsistenciasActivity extends AppCompatActivity {
 
-    private String dniEstudiante = /*"61933011"*/"";
+    private String dniEstudiante = "";
 
     private Integer cursoId;
 
@@ -60,31 +60,33 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_asistencias);
 
-        try {
-            SharedPreferences preferences = getSharedPreferences("info_usuario", MODE_PRIVATE);
-            JSONObject eJson = new JSONObject(preferences.getString("usuario", "cliente no existe"));
-            try {
+        SharedPreferences preferences = this/*.getActivity()*/.getSharedPreferences("info_usuario", MODE_PRIVATE);
+        try { // 1 Tratar de obtener un usuario
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", ""));
+
+            try { // 2 Cuando sea una ESTUDIANTE, capturar su DNI
                 dniEstudiante = eJson.getString("dniEstudiante");
             } catch (JSONException e) {
+                System.err.println("ERROR try 2");
                 e.printStackTrace();
-                //Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
-                try {
-                    dniEstudiante = preferences.getString("dniEstudiante","");
+
+                try { // 3 Cuando sea un APODERADO, capturar el dni seleccionado desde "Acceder a info. estudiantes"
+                    dniEstudiante = preferences.getString("dniEstudiante", "Error al seleccionar estudiante.");
                 } catch (Exception exception) {
+                    System.err.println("ERROR try 3: " + dniEstudiante);
                     exception.printStackTrace();
                 }
             }
         } catch (JSONException e) {
+            System.err.println("ERROR try 1");
             e.printStackTrace();
-            Toast.makeText(this, "Error al cargar usuario.", Toast.LENGTH_SHORT).show();
         }
 
-        // Datos traido del Intent en el CursoAdapter ------
+        // Datos traido del Intent en el CursoAdapter
         Bundle datos = getIntent().getExtras();
         cursoId = datos.getInt("curso_id");
         Integer icono = datos.getInt("icono");
         String nombreCurso = datos.getString("nombre");
-        // -------------------------------------------------
 
         ivCurso = findViewById(R.id.iv_ca_icono_curso);
         tvCurso = findViewById(R.id.tv_ca_curso);
@@ -109,8 +111,7 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
     }
 
     private void getConsultarAsistencias(Integer mes) {
-        String url = "http://" + Url.IP + ":" + Url.PUERTO + "/idat/rest/asistencia/consultar_asistencias?dniEstudiante=" + dniEstudiante + "&mes=" + mes + "&cursoId=" + cursoId + "&?wsdl";
-        System.out.println(url);
+        String url = Url.URL_BASE + "/idat/rest/asistencia/consultar_asistencias?dniEstudiante=" + dniEstudiante + "&mes=" + mes + "&cursoId=" + cursoId;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -139,17 +140,15 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
                             tvNAsistencias.setText(nAsistencias.toString());
 
                         } catch (JSONException ex) {
-                            Log.e("ErrorRequest", ex.getMessage());
                             ex.printStackTrace();
-                            Toast.makeText(ConsultarAsistenciasActivity.this, "Error de en el servidor?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ConsultarAsistenciasActivity.this, "Error al cargar asistencias.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
-                Log.e("ErrorVolley", volleyError.getMessage());
-                Toast.makeText(ConsultarAsistenciasActivity.this, "Error de conexión?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConsultarAsistenciasActivity.this, "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);
@@ -157,21 +156,18 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
 
     // 1. Método para OPTENER todos lo meses que asistió la estudiante
     private void getMeses() {
-        String url = "http://"+ Url.IP+":"+Url.PUERTO+"/idat/rest/asistencia/meses?dniEstudiante="+dniEstudiante+"&?wsdl";
+        String url = Url.URL_BASE + "/idat/rest/asistencia/meses?dniEstudiante=" + dniEstudiante;
         queue = Volley.newRequestQueue(ConsultarAsistenciasActivity.this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JSONArray j = null;
-                        JSONArray resultados;
-                        try{
-                            j = new JSONArray(response);
-                            resultados = j;
+                        try {
+                            JSONArray resultados = new JSONArray(response);
                             llenarSpinner(resultados);
-                        }catch (JSONException e){
-                            System.out.println("Fallo al llenarSpinner()");
+                        } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(ConsultarAsistenciasActivity.this, "Error al cargar meses.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -179,64 +175,19 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
-                System.out.println("Fallo en getMeses(): " + volleyError.getMessage());
+                Toast.makeText(ConsultarAsistenciasActivity.this, "Error de conexión.", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(stringRequest);
     }
 
     // 2. Método para cargar MESES en spinner + onItemSelectedListener
-    private void llenarSpinner(JSONArray jsonArray){
+    private void llenarSpinner(JSONArray jsonArray) {
         try {
-
-            // for para convertir número de mes a nombre
             for (int i = 0; i < jsonArray.length(); i++) {
-                String nombreMes="";
-                switch (jsonArray.getInt(i)){
-                    case 1:
-                        nombreMes="Enero";
-                        break;
-                    case 2:
-                        nombreMes="Febrero";
-                        break;
-                    case 3:
-                        nombreMes="Marzo";
-                        break;
-                    case 4:
-                        nombreMes="Abril";
-                        break;
-                    case 5:
-                        nombreMes="Mayo";
-                        break;
-                    case 6:
-                        nombreMes="Junio";
-                        break;
-                    case 7:
-                        nombreMes="Julio";
-                        break;
-                    case 8:
-                        nombreMes="Agosto";
-                        break;
-                    case 9:
-                        nombreMes="Septiembre";
-                        break;
-                    case 10:
-                        nombreMes="Octubre";
-                        break;
-                    case 11:
-                        nombreMes="Noviembre";
-                        break;
-                    case 12:
-                        nombreMes="Diciembre";
-                        break;
-                    default:
-                        nombreMes="No mapeado.";
-                        break;
-                }
-
-                meses.add(nombreMes);
+                meses.add(convertirMes(jsonArray.getInt(i)));
             }
-        }catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -247,59 +198,13 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
         spMes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override // Lo que pasa cuando selecciona un item del spinner
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Integer mes=0;
-                String nombreMes = spMes.getSelectedItem().toString();
-
-                // switch para convertir los nombres de meses a números
-                switch (nombreMes){
-                    case "Enero":
-                        mes=1;
-                        break;
-                    case "Febrero":
-                        mes=2;
-                        break;
-                    case "Marzo":
-                        mes=3;
-                        break;
-                    case "Abril":
-                        mes=4;
-                        break;
-                    case "Mayo":
-                        mes=5;
-                        break;
-                    case "Junio":
-                        mes=6;
-                        break;
-                    case "Julio":
-                        mes=7;
-                        break;
-                    case "Agosto":
-                        mes=8;
-                        break;
-                    case "Septiembre":
-                        mes=9;
-                        break;
-                    case "Octubre":
-                        mes=10;
-                        break;
-                    case "Noviembre":
-                        mes=11;
-                        break;
-                    case "Diciembre":
-                        mes=12;
-                        break;
-                    default:
-                        mes=13;
-                        break;
-                }
-
-                // Reinicio de contador y tarjetas ---
-                nAsistencias=0;
-                nFaltas=0;
+                // Reinicio de contador y tarjetas
+                nAsistencias = 0;
+                nFaltas = 0;
                 listaAsistencias = new ArrayList<>();
-                // -----------------------------------
 
-                getConsultarAsistencias(mes);
+                String nombreMes = spMes.getSelectedItem().toString();
+                getConsultarAsistencias(convertirMes(nombreMes));
             }
 
             @Override
@@ -308,7 +213,101 @@ public class ConsultarAsistenciasActivity extends AppCompatActivity {
             }
         });
 
-        // Despues de toda la configuración seleccionar el último més (el más reciente, "en teoría")
-        spMes.setSelection(meses.size()-1);
+        // Despues de toda la configuración seleccionar el último més (el más reciente)
+        spMes.setSelection(meses.size() - 1);
+    }
+
+    // Convertir los nombres de meses a números
+    private Integer convertirMes(String nombreMes){
+        Integer mes = 0;
+        switch (nombreMes) {
+            case "Enero":
+                mes = 1;
+                break;
+            case "Febrero":
+                mes = 2;
+                break;
+            case "Marzo":
+                mes = 3;
+                break;
+            case "Abril":
+                mes = 4;
+                break;
+            case "Mayo":
+                mes = 5;
+                break;
+            case "Junio":
+                mes = 6;
+                break;
+            case "Julio":
+                mes = 7;
+                break;
+            case "Agosto":
+                mes = 8;
+                break;
+            case "Septiembre":
+                mes = 9;
+                break;
+            case "Octubre":
+                mes = 10;
+                break;
+            case "Noviembre":
+                mes = 11;
+                break;
+            case "Diciembre":
+                mes = 12;
+                break;
+            default:
+                mes = 13;
+                break;
+        }
+        return mes;
+    }
+
+    // Convertir numero de meses a nombre
+    private String convertirMes(Integer mes){
+        String nombreMes = "";
+        switch (mes) {
+            case 1:
+                nombreMes = "Enero";
+                break;
+            case 2:
+                nombreMes = "Febrero";
+                break;
+            case 3:
+                nombreMes = "Marzo";
+                break;
+            case 4:
+                nombreMes = "Abril";
+                break;
+            case 5:
+                nombreMes = "Mayo";
+                break;
+            case 6:
+                nombreMes = "Junio";
+                break;
+            case 7:
+                nombreMes = "Julio";
+                break;
+            case 8:
+                nombreMes = "Agosto";
+                break;
+            case 9:
+                nombreMes = "Septiembre";
+                break;
+            case 10:
+                nombreMes = "Octubre";
+                break;
+            case 11:
+                nombreMes = "Noviembre";
+                break;
+            case 12:
+                nombreMes = "Diciembre";
+                break;
+            default:
+                nombreMes = "No mapeado.";
+                break;
+        }
+        return nombreMes;
     }
 }

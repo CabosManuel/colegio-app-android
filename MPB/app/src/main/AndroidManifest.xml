@@ -11,17 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MPB" >
-        <activity android:name=".ConsultarAsistenciasActivity">
-            <!--intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter-->
-        </activity>
-        <activity android:name=".PerfilEstudiante" />
-        <activity android:name=".RegistrarJustificacion" />
-        <activity android:name=".MainActivity" />
-
         <activity android:name=".Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,19 +21,17 @@
         <activity
             android:name=".MenuEstudiante"
             android:label="@string/title_activity_menu_estudiante"
-            android:theme="@style/Theme.MPB.NoActionBar">
-            <!--intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter-->
-        </activity>
-
+            android:theme="@style/Theme.MPB.NoActionBar" />
         <activity
             android:name=".MenuApoderado"
             android:label="@string/title_activity_menu_apoderado"
-            android:theme="@style/Theme.MPB.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.MPB.NoActionBar" />
+
+        <activity android:name=".ConsultarAsistenciasActivity" />
+        <activity android:name=".PerfilEstudiante" />
+        <activity android:name=".RegistrarJustificacion" />
+
+        <activity android:name=".MainActivity" />
 
     </application>
 </manifest>

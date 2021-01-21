@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_nav_estudiantes_to_nav_horario"
             app:destination="@id/nav_horario" />
+        <action
+            android:id="@+id/action_nav_estudiantes_to_nav_perfil_estudiante"
+            app:destination="@id/nav_perfil_estudiante" />
     </fragment>
     <fragment
         android:id="@+id/nav_bandeja_entrada"
@@ -63,4 +66,9 @@
         android:name="pe.mariaparadodebellido.fragments.ListarJustificacionesFragment"
         android:label="@string/valnav_listar_justificaciones"
         tools:layout="@layout/fragment_listar_justificaciones"/>
+    <fragment
+        android:id="@+id/nav_perfil_estudiante"
+        android:name="pe.mariaparadodebellido.fragments.PerfilEstudianteFragment"
+        android:label="@string/valnav_pefil"
+        tools:layout="@layout/fragment_perfil_estudiante" />
 </navigation>

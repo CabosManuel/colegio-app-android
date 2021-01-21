@@ -43,7 +43,7 @@ public class MenuEstudiante extends AppCompatActivity {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_inicio
-                ,R.id.nav_perfil
+                ,R.id.nav_perfil_estudiante
                 ,R.id.nav_consultar_asistencias
                 ,R.id.nav_consultar_notas
                 ,R.id.nav_horario

@@ -90,8 +90,7 @@ public class InfoEstudianteAdapter extends RecyclerView.Adapter<InfoEstudianteAd
         holder.btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Pendiente", Toast.LENGTH_SHORT).show();
-                //Navigation.findNavController(view).navigate(R.id.);
+                Navigation.findNavController(view).navigate(R.id.action_nav_estudiantes_to_nav_perfil_estudiante);
                 guardarDni(estudiante.getDniEstudiante());
             }
         });

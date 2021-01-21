@@ -16,6 +16,9 @@ public class Estudiante {
     private Distrito distrito;
     private Apoderado apoderado;
 
+    public static final int EDAD_MIN = 10;
+    public static final int EDAD_MAX = 23;
+
     public String getNombreApellido(){
         return this.nombre + " " + this.apellido;
     }

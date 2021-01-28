@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +40,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import pe.mariaparadodebellido.Login;
 import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.model.Distrito;
 import pe.mariaparadodebellido.model.Estudiante;
@@ -65,12 +64,6 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
     private ArrayList<Distrito> distritos = new ArrayList<>();
     private RequestQueue colaPeticiones;
 
-    /*@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }*/
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +73,6 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
 
         spDistritos = viewFragment.findViewById(R.id.sp_e_distrito);
         spDistritos.setEnabled(false);
-        getDistritos();
 
         btnEditar = viewFragment.findViewById(R.id.btn_e_editar);
         btnGuardar = viewFragment.findViewById(R.id.btn_e_guardar);
@@ -97,7 +89,7 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
         btnGuardar.setOnClickListener(this);
         etFNacimiento.setOnClickListener(this);
 
-        cargarDatosEnSesion();
+        capturarDatosEnSesion();
 
         return viewFragment;
     }
@@ -133,12 +125,10 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
                     @Override
                     public void onResponse(JSONObject datosRespuesta) {
                         try {
-                            JSONObject usuarioJson = datosRespuesta.getJSONObject("estudiante");
-
                             // Actualizar datos en sesión
                             SharedPreferences.Editor editor = getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE).edit();
-                            editor.putString(estudianteTag, usuarioJson.toString());
-                            editor.commit();
+                            editor.putString(estudianteTag, datosRespuesta.toString());
+                            editor.apply();
 
                             Toast.makeText(getContext(), "Se actualizó la información correctamente.", Toast.LENGTH_SHORT).show();
                         } catch (Exception ex) {
@@ -161,27 +151,34 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
 
     // Método para cargar en los EditText y spinner los datos de la sesión actual
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void cargarDatosEnSesion() {
-        //colaPeticiones = Volley.newRequestQueue(getContext());
+    private void capturarDatosEnSesion() {
         // Obtener usuario en sessión
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
         try {
             switch (preferences.getString("tipo", "")) {
-                case "estudiante": // Cuando un estudiante esté logueado
+                // Cuando un estudiante esté logueado
+                case "estudiante":
                     estudianteTag = "usuario";
-                    estudianteJson = new JSONObject(
-                            preferences.getString(estudianteTag, ""));
+                    estudianteJson = new JSONObject(preferences.getString(estudianteTag, ""));
+                    // Se carga esa información a la vista
+                    cargarEnCampos();
                     break;
                 case "apoderado": // Cuando un apoderado esté logueado
                     estudianteTag = "estudiante";
-                    if (preferences.getString(estudianteTag, "").isEmpty()) {
-                        buscarGuardarEstudiante(preferences.getString("dniEstudiante", ""));
-                    }
-
-                    estudianteJson = new JSONObject(preferences.getString(estudianteTag, ""));
+                    buscarGuardarEstudiante(preferences.getString("dniEstudiante", ""));
                     break;
             }
 
+        } catch (JSONException e) {
+            Toast.makeText(getContext(), "Error al cargar datos en sesión.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            Log.e("error preference", e.getMessage());
+        }
+    }
+
+    // Método para cargar datos a los campos de la vista (EditText y spinner)
+    private void cargarEnCampos() {
+        try {
             dniEstudiante = estudianteJson.getString("dniEstudiante");
             etDNI.setText(dniEstudiante);
             etNombres.setText(estudianteJson.getString("nombre"));
@@ -190,18 +187,16 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
             etDireccion.setText(estudianteJson.getString("direccion"));
             etCorreo.setText(estudianteJson.getString("correo"));
             etCelular.setText(estudianteJson.getString("celular"));
-            //spDistritos.setSelection(estudianteJson.getInt("distritoId") - 1);
             etFNacimiento.setText(DateTimeFormatter.ofPattern("dd/MM/yyyy")
                     .format(LocalDate.parse(estudianteJson.getString("fNacimiento"))));
 
+            getDistritos();
         } catch (JSONException e) {
-            Toast.makeText(getContext(), "Error al cargar datos en sesión.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
-    // Metodo para obtener todos los datos del estudiante y guardarlos en otra
-    // parte de la sesión (cuando sea apoderado)
+    // Metodo para obtener datos del estudiante y guardarlos en otra parte de la sesión (cuando sea apoderado)
     private void buscarGuardarEstudiante(String dniEstudiante) {
         colaPeticiones = Volley.newRequestQueue(getContext());
         String url = Url.URL_BASE + "/idat/rest/estudiante/buscar_estudiante/" + dniEstudiante;
@@ -210,9 +205,18 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        // Editar sesión y agregar el nuevo put/tag a la sesión
                         SharedPreferences.Editor editor = getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE).edit();
                         editor.putString(estudianteTag, response.toString());
                         editor.apply();
+
+                        try { // Almacenar inforamción de ese tag y cargarlos a la vista
+                            SharedPreferences preferences = getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE);
+                            estudianteJson = new JSONObject(preferences.getString(estudianteTag, ""));
+                            cargarEnCampos();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -234,23 +238,24 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
         nuevoEstudianteJson.put("celular", etCelular.getText().toString());
         nuevoEstudianteJson.put("correo", etCorreo.getText().toString());
         nuevoEstudianteJson.put("direccion", etDireccion.getText().toString());
+        nuevoEstudianteJson.put("apoderado", etApoderado.getText().toString());
         nuevoEstudianteJson.put("distrito_id", spDistritos.getSelectedItemId() + 1);
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String fNacimiento = DateTimeFormatter.ISO_DATE.format(
+        String fNacimiento = DateTimeFormatter.ISO_LOCAL_DATE.format(
                 LocalDate.parse(etFNacimiento.getText(), formato));
         nuevoEstudianteJson.put("fnacimiento", fNacimiento);
 
         return nuevoEstudianteJson;
     }
 
+    // Método para funcionalidad del Calendario de "etFnacimiento"
     private void mostrarCalendario() {
-
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse(etFNacimiento.getText(), formato);
 
         int anio = fecha.getYear();
-        int mes = fecha.getMonthValue()-1;
+        int mes = fecha.getMonthValue() - 1;
         int dia = fecha.getDayOfMonth();
 
         DatePickerDialog dtpCalendario = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
@@ -262,7 +267,7 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
                 if (diaSeleccionado < 10) diaConcatenado = "0" + diaSeleccionado;
                 if (mesSeleccionado < 10) mesConcatenado = "0" + mesSeleccionado;
 
-                System.out.println("3: "+diaConcatenado + "/" + mesConcatenado + "/" + anioSeleccionado);
+                System.out.println("3: " + diaConcatenado + "/" + mesConcatenado + "/" + anioSeleccionado);
                 etFNacimiento.setText(diaConcatenado + "/" + mesConcatenado + "/" + anioSeleccionado);
             }
         }, anio, mes, dia);
@@ -306,32 +311,32 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
         String correo = etCorreo.getText().toString();
         String celular = etCelular.getText().toString();
 
-
-        // VALIDAR fecha nacimiento
-
-
         if (nombres.isEmpty()) {
-            etNombres.setError("El campo es obligatorio");
+            etNombres.setError("El campo es obligatorio.");
             valido = false;
         }
         if (apellidos.isEmpty()) {
-            etApellidos.setError("El campo es obligatorio");
+            etApellidos.setError("El campo es obligatorio.");
             valido = false;
         }
         if (direccion.isEmpty()) {
-            etDireccion.setError("El campo es obligatorio");
+            etDireccion.setError("El campo es obligatorio.");
             valido = false;
         }
         if (celular.isEmpty()) {
-            etCelular.setError("El campo es obligatorio");
+            etCelular.setError("El campo es obligatorio.");
             valido = false;
         }
         if (celular.length() < 9) {
-            etCelular.setError("Número celular no valido");
+            etCelular.setError("Número celular no valido.");
             valido = false;
         }
         if (correo.isEmpty()) {
-            etCorreo.setError("El campo es obligatorio");
+            etCorreo.setError("El campo es obligatorio.");
+            valido = false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            etCorreo.setError("Ingrese un correo valido.");
             valido = false;
         }
 
@@ -378,11 +383,11 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
                 android.R.layout.simple_spinner_dropdown_item, distritos));
 
         // Seleccionar en el spinner
-        /*try {
+        try {
             spDistritos.setSelection(estudianteJson.getInt("distritoId") - 1);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error al establecer distrito.", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 }

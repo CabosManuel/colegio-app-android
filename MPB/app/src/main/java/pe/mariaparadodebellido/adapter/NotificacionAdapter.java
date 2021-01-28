@@ -45,6 +45,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
         Notificacion n = notificaciones.get(position);
 
         holder.tvTitulo.setText(n.getTitulo());
+
         // Texto reducicdo y puntos suspensivos..
         String descripcion = n.getDescripcion().substring(0, 110);
         descripcion += "...";
@@ -59,27 +60,22 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
         holder.tvEstado.setVisibility(View.VISIBLE);
         holder.ivEstado.setVisibility(View.VISIBLE);
 
-        // switch para color de fondo segun tipo notificaciones
-        switch (n.getTipo()) {
-            case "comunicado":
-                // Los comunicados no tienen estado, por eso se ocultan estos elementos:
-                holder.tvEstado.setVisibility(View.INVISIBLE);
-                holder.ivEstado.setVisibility(View.INVISIBLE);
-                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_amarillo));
-                break;
-            case "citacion":
-                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_verde));
-                break;
-            case "permiso":
-                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_celeste));
-                break;
-        }
+        String estado = "";
+        int color = 0;
+        int icono = 0;
 
-        // Cuando la notificación tenga "estado" (permiso y citación)
-        if (n.getEstado() != null) {
-            String estado = "";
-            int color = 0;
-            int icono = 0;
+        if (n.getTipo().equals("comunicado")) {
+            // Los comunicados no tienen estado, por eso se ocultan estos elementos:
+            holder.tvEstado.setVisibility(View.INVISIBLE);
+            holder.ivEstado.setVisibility(View.INVISIBLE);
+            holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_amarillo));
+        }
+        // (permiso y citación) cuando la notificación tenga "estado"
+        else {
+            if (n.getTipo().equals("citacion"))
+                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_verde));
+            else
+                holder.clFondo.setBackgroundColor(ContextCompat.getColor(context, R.color.chip_celeste));
 
             // switch para texto y color del estado + iciono
             switch (n.getEstado()) {

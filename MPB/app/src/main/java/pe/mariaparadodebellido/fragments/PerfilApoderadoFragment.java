@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,6 +225,10 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
         }
         if (correo.isEmpty()) {
             etCorreo.setError("El campo es obligatorio");
+            valido = false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            etCorreo.setError("Ingrese un correo valido.");
             valido = false;
         }
 

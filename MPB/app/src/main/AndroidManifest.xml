@@ -28,7 +28,6 @@
             android:theme="@style/Theme.MPB.NoActionBar" />
 
         <activity android:name=".ConsultarAsistenciasActivity" />
-        <activity android:name=".PerfilEstudiante" />
         <activity android:name=".RegistrarJustificacion" />
 
         <activity android:name=".MainActivity" />

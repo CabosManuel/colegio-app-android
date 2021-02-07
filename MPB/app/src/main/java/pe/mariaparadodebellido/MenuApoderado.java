@@ -47,7 +47,7 @@ public class MenuApoderado extends AppCompatActivity {
                 ,R.id.nav_perfil_apoderado
                 ,R.id.nav_estudiantes
                 ,R.id.nav_bandeja_entrada
-                ,R.id.nav_registrar_justificaciones
+                ,R.id.nav_registrar_justificacion
                 ,R.id.nav_listar_justificaciones
                 ).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

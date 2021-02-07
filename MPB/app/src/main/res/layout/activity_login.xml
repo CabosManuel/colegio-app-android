@@ -130,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="Contraseña"
+                    android:maxLength="32"
                     android:inputType="textPassword"
                     android:textColorHighlight="@color/azul_claro" />
 

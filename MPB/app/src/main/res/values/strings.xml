@@ -9,6 +9,7 @@
     <string name="val_tv_cursos">Cursos</string>
 
     <string name="parrafo_test">quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed...</string>
+    <string name="parrafo_test_largo">Se les cita a los padres de familia o apoderados a la 12va reunión de padres que se realizará el LUNES 14 DE DICIEMBRE a las 10:00 am, donde se coordinarán los utimos puntos sobre el paseo próximo a realizar este 28 de diciembre. <br /><br /> Confirme su asistencia a la reunión por este medio para tenerlo en cuenta.</string>
 
     <string name="title_activity_menu_estudiante">MenuEstudiante</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -30,7 +31,7 @@
     <!-- Menu apoderado -->
     <string name="valnav_bandeja_entrada">Bandeja de entrada</string>
     <string name="valnav_acceder_info_estudiantes">Estudiantes</string>
-    <string name="valnav_registrar_justificaciones">Registrar justificaciones</string>
+    <string name="valnav_registrar_justificacion">Registrar justificacion</string>
     <string name="valnav_listar_justificaciones">Listar justificaciones</string>
     <string name="valnav_pefil">Perfil</string>
 

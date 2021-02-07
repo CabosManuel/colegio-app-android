@@ -56,16 +56,21 @@
         android:name="pe.mariaparadodebellido.fragments.BandejaEntradaFragment"
         android:label="@string/valnav_bandeja_entrada"
         tools:layout="@layout/fragment_bandeja_entrada"/>
-    <!--fragment
-        android:id="@+id/nav_registrar_justificaciones"
-        android:name="pe.mariaparadodebellido.fragments.RegistrarJustificacionesFragment"
-        android:label="@string/valnav_registrar_justificaciones"
-        tools:layout="@layout/fragment_registrar_justificaciones"/-->
+    <fragment
+        android:id="@+id/nav_registrar_justificacion"
+        android:name="pe.mariaparadodebellido.fragments.RegistrarJustificacionFragment"
+        android:label="@string/valnav_registrar_justificacion"
+        tools:layout="@layout/fragment_registrar_justificacion"/>
     <fragment
         android:id="@+id/nav_listar_justificaciones"
         android:name="pe.mariaparadodebellido.fragments.ListarJustificacionesFragment"
         android:label="@string/valnav_listar_justificaciones"
-        tools:layout="@layout/fragment_listar_justificaciones"/>
+        tools:layout="@layout/fragment_listar_justificaciones">
+        <action
+            android:id="@+id/action_nav_listar_justificaciones_to_nav_registrar_justificacion"
+            app:destination="@id/nav_registrar_justificacion" />
+    </fragment>
+
     <fragment
         android:id="@+id/nav_perfil_estudiante"
         android:name="pe.mariaparadodebellido.fragments.PerfilEstudianteFragment"

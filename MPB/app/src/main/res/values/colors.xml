@@ -43,4 +43,5 @@
 
     <!-- Color para Listar justificaciones -->
     <color name="rosado_justificación">#FFC2C2</color>
+    <color name="gris">#777777</color>
 </resources>

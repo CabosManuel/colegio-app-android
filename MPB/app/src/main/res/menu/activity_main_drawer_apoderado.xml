@@ -21,9 +21,9 @@
             android:icon="@drawable/ic_bandeja_entrada"
             android:title="@string/valnav_bandeja_entrada"/>
         <item
-            android:id="@+id/nav_registrar_justificaciones"
+            android:id="@+id/nav_registrar_justificacion"
             android:icon="@drawable/ic_registrar_justificaciones"
-            android:title="@string/valnav_registrar_justificaciones"/>
+            android:title="@string/valnav_registrar_justificacion"/>
         <item
             android:id="@+id/nav_listar_justificaciones"
             android:icon="@drawable/ic_listar_justificaciones"

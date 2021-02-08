@@ -9,20 +9,29 @@
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_fondo_docente"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="wrap_content"
         android:background="@color/azul_claro"
-        android:padding="18dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/iv_iconodoc"
-            android:layout_width="120dp"
-            android:layout_height="186dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/profesor"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gl_docente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.483"
-            app:srcCompat="@drawable/profesor" />
+            app:layout_constraintVertical_bias="0.483" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_docente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
 
         <TextView
             android:id="@+id/datos_dc"
@@ -35,7 +44,7 @@
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_iconodoc"
+            app:layout_constraintStart_toEndOf="@+id/gl_docente"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -48,18 +57,19 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_iconodoc"
+            app:layout_constraintStart_toEndOf="@+id/gl_docente"
             app:layout_constraintTop_toBottomOf="@+id/datos_dc" />
 
         <TextView
             android:id="@+id/txtNombres"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
             android:text="Jose Alberto"
-            android:textColor="#2C2C2C"
+            android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tx_nombres"
             app:layout_constraintTop_toBottomOf="@+id/datos_dc" />
 
@@ -70,21 +80,22 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:text="Apellidos:"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_iconodoc"
+            app:layout_constraintStart_toEndOf="@+id/gl_docente"
             app:layout_constraintTop_toBottomOf="@+id/tx_nombres" />
 
         <TextView
             android:id="@+id/txtApellidos"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="Hernandez Morales"
-            android:textColor="#2C2C2C"
+            android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tx_apell"
             app:layout_constraintTop_toBottomOf="@+id/txtNombres" />
 
@@ -98,18 +109,19 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_iconodoc"
+            app:layout_constraintStart_toEndOf="@+id/gl_docente"
             app:layout_constraintTop_toBottomOf="@+id/tx_apell" />
 
         <TextView
             android:id="@+id/txtCelular"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="987654321"
-            android:textColor="#2C2C2C"
+            android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tx_cel"
             app:layout_constraintTop_toBottomOf="@+id/txtApellidos" />
 
@@ -123,18 +135,19 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_iconodoc"
+            app:layout_constraintStart_toEndOf="@+id/gl_docente"
             app:layout_constraintTop_toBottomOf="@+id/tx_cel" />
 
         <TextView
             android:id="@+id/txtCorreo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="d10253@hotmail.com"
-            android:textColor="#2C2C2C"
+            android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tx_cor"
             app:layout_constraintTop_toBottomOf="@+id/txtCelular" />
 
@@ -148,18 +161,19 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_iconodoc"
+            app:layout_constraintStart_toEndOf="@+id/gl_docente"
             app:layout_constraintTop_toBottomOf="@+id/tx_cor" />
 
         <TextView
             android:id="@+id/txtCurso"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="Ciencia Técnologia y A."
-            android:textColor="#2C2C2C"
+            android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tx_cur"
             app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
 

@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_nav_estudiantes_to_nav_perfil_estudiante"
             app:destination="@id/nav_perfil_estudiante" />
+        <action
+            android:id="@+id/action_nav_estudiantes_to_nav_docentes"
+            app:destination="@id/nav_docentes" />
     </fragment>
     <fragment
         android:id="@+id/nav_bandeja_entrada"
@@ -76,4 +79,10 @@
         android:name="pe.mariaparadodebellido.fragments.PerfilEstudianteFragment"
         android:label="@string/valnav_pefil"
         tools:layout="@layout/fragment_perfil_estudiante" />
+
+    <fragment
+        android:id="@+id/nav_docentes"
+        android:name="pe.mariaparadodebellido.fragments.ListarDocentesFragment"
+        android:label="@string/valnav_listar_docentes"
+        tools:layout="@layout/fragment_listar_docentes" />
 </navigation>

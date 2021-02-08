@@ -81,8 +81,7 @@ public class InfoEstudianteAdapter extends RecyclerView.Adapter<InfoEstudianteAd
         holder.btnListarDocentes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Listar docentes (Sprint 4)", Toast.LENGTH_SHORT).show();
-                //Navigation.findNavController(view).navigate(R.id.);
+                Navigation.findNavController(view).navigate(R.id.action_nav_estudiantes_to_nav_docentes);
                 guardarDni(estudiante.getDniEstudiante());
             }
         });

@@ -30,7 +30,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 import pe.mariaparadodebellido.R;
-import pe.mariaparadodebellido.model.Estudiante;
 import pe.mariaparadodebellido.model.Justificacion;
 import pe.mariaparadodebellido.util.Url;
 
@@ -59,12 +58,16 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewFragment =  inflater.inflate(R.layout.fragment_registrar_justificacion, container, false);
 
-        txtFechaInasistencia = viewFragment.findViewById(R.id.txtFechaInasistencia);
+        txtFechaInasistencia = viewFragment.findViewById(R.id.txt_FechaInasistencia);
+        txtFechaInasistencia.setText(DateTimeFormatter
+                .ofPattern("dd/MM/yyyy")
+                .format(LocalDate.now().plusDays(1)));
         txtJustificacion = viewFragment.findViewById(R.id.txt_Justificacion);
         txttitulo = viewFragment.findViewById(R.id.txttitulo);
         ivImagen = viewFragment.findViewById(R.id.iv_imagen);
@@ -72,6 +75,7 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         btnBorrar = viewFragment.findViewById(R.id.btn_borrar);
         btnEnviar = viewFragment.findViewById(R.id.btn_Enviar);
         btnCancelar = viewFragment.findViewById(R.id.btn_Cancelar);
+        txtFechaInasistencia.setOnClickListener(this);
         ivImagen.setOnClickListener(this);
         btnSeleccionar.setOnClickListener(this);
         btnBorrar.setOnClickListener(this);
@@ -85,7 +89,7 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.txtFechaInasistencia:
+            case R.id.txt_FechaInasistencia:
                 mostrarCalendario();
                 break;
             case R.id.btn_borrar:
@@ -104,30 +108,26 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
     }
 
     public boolean validar() {
-        boolean retorno = true;
-
-        //int jjustificacionId;
+        boolean valido = true;
         String jfechaJustificacion, jjustificacion, jtitulo;
-
-        jfechaJustificacion = txtFechaInasistencia.getText().toString();
-        jjustificacion = txtJustificacion.getText().toString();
         jtitulo = txttitulo.getText().toString();
+        //jfechaJustificacion = txtFechaInasistencia.getText().toString();
+        jjustificacion = txtJustificacion.getText().toString();
 
-        /*
-            if(jfechaJustificacion.isEmpty()){
-                jfechaJustificacion.setError("Este campo no puede quedar vacio");
-                retorno = false;
-            }
-            if(fechaEnvio.isEmpty()){
-                apellido.setError("Este campo no puede quedar vacio");
-                retorno = false;
-            }
-            if(fechaJustificacion.isEmpty()){
-                edad.setError("Este campo no puede quedar vacio");
-                retorno = false;
-            }
-            */
-        return retorno;
+        if(jtitulo.isEmpty()){
+            txttitulo.setError("Este campo no puede quedar vacio");
+            valido = false;
+        }
+        /*if(jfechaJustificacion.isEmpty()){
+            apellido.setError("Este campo no puede quedar vacio");
+            valido = false;
+        }*/
+        if(jjustificacion.isEmpty()){
+            txtJustificacion.setError("Este campo no puede quedar vacio");
+            valido = false;
+        }
+
+        return valido;
     }
 
     private void cargarWebServices() {
@@ -188,14 +188,16 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
             }
         }, anio, mes, dia);
 
+
         // Fechha mínima
+        LocalDate fechaMañana = LocalDate.now().plusDays(1);
         Calendar c = Calendar.getInstance();
-        c = Calendar.getInstance();
+        c.set(fechaMañana.getYear(), fechaMañana.getMonthValue(), fechaMañana.getDayOfMonth());
         dtpCalendario.getDatePicker().setMinDate(c.getTimeInMillis());
 
         // Fechha máxima
-        fecha.plusDays(Justificacion.FECHA_MAX);
-        c.set(fecha.getDayOfYear(), fecha.getMonth().getValue(), fecha.getDayOfMonth());
+        LocalDate fechaMax = LocalDate.now().plusDays((Justificacion.FECHA_MAX));
+        c.set(fechaMax.getYear(), fechaMax.getMonthValue(), fechaMax.getDayOfMonth());
         dtpCalendario.getDatePicker().setMaxDate(c.getTimeInMillis());
 
         dtpCalendario.show();

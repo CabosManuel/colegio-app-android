@@ -1,5 +1,6 @@
 package pe.mariaparadodebellido.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -32,21 +33,42 @@ import pe.mariaparadodebellido.model.Docente;
 import pe.mariaparadodebellido.model.Justificacion;
 import pe.mariaparadodebellido.util.Url;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ListarDocentesFragment extends Fragment {
 
     private ArrayList<Docente> Docente = new ArrayList<>();
-    private String DocenteId = "";
+    private String dniEstudiante = "";
 
-    private FloatingActionButton fabAgregar;
     private RecyclerView rv_Docentes;
     private DocenteAdapter DocenteAdapter;
     private RequestQueue queue;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewFragment = inflater.inflate(R.layout.fragment_listar_docentes, container, false);
+
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("info_usuario", MODE_PRIVATE);
+        try { // 1 Tratar de obtener un usuario
+            JSONObject eJson = new JSONObject(preferences.getString("usuario", ""));
+
+            try { // 2 Cuando sea una ESTUDIANTE, capturar su DNI
+                dniEstudiante = eJson.getString("dniEstudiante");
+            } catch (JSONException e) {
+                System.err.println("ERROR try 2");
+                e.printStackTrace();
+
+                try { // 3 Cuando sea un APODERADO, capturar el dni seleccionado desde "Acceder a info. estudiantes"
+                    dniEstudiante = preferences.getString("dniEstudiante", "Error al seleccionar estudiante.");
+                } catch (Exception exception) {
+                    System.err.println("ERROR try 3: " + dniEstudiante);
+                    exception.printStackTrace();
+                }
+            }
+        } catch (JSONException e) {
+            System.err.println("ERROR try 1");
+            e.printStackTrace();
+        }
 
         rv_Docentes = viewFragment.findViewById(R.id.rv_Docentes);
         rv_Docentes.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -57,18 +79,10 @@ public class ListarDocentesFragment extends Fragment {
         queue = Volley.newRequestQueue(getContext());
         getListarDocentes();
 
-        fabAgregar = viewFragment.findViewById(R.id.fab_agregar);
-        fabAgregar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Registrar Docente (Sprint 4)", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return viewFragment;
     }
     private void getListarDocentes() {
-        String url = Url.URL_BASE + "/idat/rest/Docente/listar_docente?DocenteId=" + DocenteId;
+        String url = Url.URL_BASE + "/idat/rest/trabajador/listar_docentes?dniEstudiante=" + dniEstudiante;
         JsonArrayRequest peticion = new JsonArrayRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -77,15 +91,15 @@ public class ListarDocentesFragment extends Fragment {
                         try {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject objjson = jsonArray.getJSONObject(i);
-                                Docente.add(new Docente (
-                                        objjson.getInt("DocenteId"),
-                                        objjson.getString("Nombres"),
-                                        objjson.getString("Apellido"),
-                                        objjson.getString("Celular"),
-                                        objjson.getString("Correo"),
-                                        objjson.getString("Sexo"),
-                                        objjson.getString("Numero")
-                                ));
+                                Docente docente = new Docente();
+                                docente.setNombres(objjson.getString("nombres"));
+                                docente.setApellido(objjson.getString("apellidos"));
+                                docente.setCelular(objjson.getString("celular"));
+                                docente.setCorreo(objjson.getString("correo"));
+                                docente.setSexo(objjson.getString("sexo"));
+                                docente.setCurso(objjson.getString("curso"));
+
+                                Docente.add(docente);
                             }
                             DocenteAdapter.agregarDocente(Docente);
                         } catch (JSONException ex) {

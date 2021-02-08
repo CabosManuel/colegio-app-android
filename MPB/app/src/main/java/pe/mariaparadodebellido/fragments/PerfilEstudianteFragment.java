@@ -142,7 +142,6 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getContext(), "Error de conexión.", Toast.LENGTH_SHORT).show();
                         error.printStackTrace();
-                        Log.e("error_volley", error.getMessage());
                     }
                 }
         );

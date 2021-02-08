@@ -47,7 +47,7 @@ public class MenuEstudiante extends AppCompatActivity {
                 ,R.id.nav_consultar_asistencias
                 ,R.id.nav_consultar_notas
                 ,R.id.nav_horario
-                /*,R.id.nav_docentes*/).setDrawerLayout(drawer).build();
+                ,R.id.nav_docentes).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

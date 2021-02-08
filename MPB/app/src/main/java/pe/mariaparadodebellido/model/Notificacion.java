@@ -10,6 +10,12 @@ public class Notificacion {
     private Character estado;
     private String dniEstudiante;
 
+    private Integer iconoEstado;
+    private Integer color;
+    private String estadoCompleto;
+
+    public static final int FECHA_MAX = 7;
+
     public Notificacion() {
     }
 
@@ -22,6 +28,22 @@ public class Notificacion {
         this.descripcion = descripcion;
         this.estado = estado;
         this.dniEstudiante = dniEstudiante;
+    }
+
+    public Notificacion(Integer idNofiticacion, String tipo, String fechaEnvio, String fechaLimite,
+                        String titulo, String descripcion, Character estado, String dniEstudiante,
+                        Integer color, String estadoCompleto, Integer iconoEstado) {
+        this.idNofiticacion = idNofiticacion;
+        this.tipo = tipo;
+        this.fechaEnvio = fechaEnvio;
+        this.fechaLimite = fechaLimite;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.dniEstudiante = dniEstudiante;
+        this.color = color;
+        this.estadoCompleto = estadoCompleto;
+        this.iconoEstado = iconoEstado;
     }
 
     public Integer getIdNofiticacion() {
@@ -88,4 +110,44 @@ public class Notificacion {
         this.dniEstudiante = dniEstudiante;
     }
 
+    public Integer getIconoEstado() {
+        return iconoEstado;
+    }
+
+    public void setIconoEstado(Integer iconoEstado) {
+        this.iconoEstado = iconoEstado;
+    }
+
+    public Integer getColor() {
+        return color;
+    }
+
+    public void setColor(Integer color) {
+        this.color = color;
+    }
+
+    public String getEstadoCompleto() {
+        return estadoCompleto;
+    }
+
+    public void setEstadoCompleto(String estadoCompleto) {
+        this.estadoCompleto = estadoCompleto;
+    }
+
+    @Override
+    public String toString() {
+        return "Notificacion{" +
+                "idNofiticacion=" + idNofiticacion +
+                ", tipo='" + tipo + '\'' +
+                ", fechaEnvio='" + fechaEnvio + '\'' +
+                ", fechaLimite='" + fechaLimite + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", estado=" + estado +
+                ", dniEstudiante='" + dniEstudiante + '\'' +
+                ", iconoEstado=" + iconoEstado +
+                ", color=" + color +
+                ", estadoCompleto='" + estadoCompleto + '\'' +
+                '}';
+    }
 }

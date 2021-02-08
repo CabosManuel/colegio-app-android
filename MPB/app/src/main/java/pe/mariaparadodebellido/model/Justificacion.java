@@ -8,6 +8,8 @@ public class Justificacion {
     private String dniEstudiante;
     private String descripcion;
 
+    public static final int FECHA_MAX = 7;
+
     public Justificacion() {
     }
 

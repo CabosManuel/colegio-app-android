@@ -14,8 +14,6 @@ public class Notificacion {
     private Integer color;
     private String estadoCompleto;
 
-    public static final int FECHA_MAX = 7;
-
     public Notificacion() {
     }
 

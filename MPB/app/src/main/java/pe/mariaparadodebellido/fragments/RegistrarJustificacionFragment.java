@@ -31,7 +31,7 @@ import java.util.Calendar;
 
 import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.model.Estudiante;
-import pe.mariaparadodebellido.model.Notificacion;
+import pe.mariaparadodebellido.model.Justificacion;
 import pe.mariaparadodebellido.util.Url;
 
 public class RegistrarJustificacionFragment extends Fragment implements View.OnClickListener {
@@ -194,7 +194,7 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         dtpCalendario.getDatePicker().setMinDate(c.getTimeInMillis());
 
         // Fechha máxima
-        fecha.plusDays(Notificacion.FECHA_MAX);
+        fecha.plusDays(Justificacion.FECHA_MAX);
         c.set(fecha.getDayOfYear(), fecha.getMonth().getValue(), fecha.getDayOfMonth());
         dtpCalendario.getDatePicker().setMaxDate(c.getTimeInMillis());
 

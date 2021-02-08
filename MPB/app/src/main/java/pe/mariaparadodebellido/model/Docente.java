@@ -8,6 +8,8 @@ public class Docente {
     private String Correo;
     private String Sexo;
 
+    private String curso;
+
     public Docente(){
     }
     public Docente(Integer DocenteId, String Nombres, String Apellido, String Celular, String Correo, String Numero, String Sexo) {
@@ -65,6 +67,14 @@ public class Docente {
 
     public void setSexo(String sexo) {
         Sexo = sexo;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
     }
 }
 

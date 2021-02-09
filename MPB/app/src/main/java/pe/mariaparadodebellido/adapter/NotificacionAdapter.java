@@ -2,6 +2,8 @@ package pe.mariaparadodebellido.adapter;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
@@ -20,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import pe.mariaparadodebellido.R;
+import pe.mariaparadodebellido.fragments.ConfirmarCitacionFragment;
 import pe.mariaparadodebellido.model.Notificacion;
 
 public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapter.ViewHolder> {
@@ -111,10 +117,55 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                     break;
             }
 
-            holder.ivEstado.setImageResource(icono);
-            holder.tvEstado.setText(estado);
-            holder.tvEstado.setTextColor(ContextCompat.getColor(context, color));
+            n.setEstadoCompleto(estado);
+            n.setIconoEstado(icono);
+            n.setColor(color);
+
+            holder.ivEstado.setImageResource(n.getIconoEstado());
+            holder.tvEstado.setText(n.getEstadoCompleto());
+            holder.tvEstado.setTextColor(ContextCompat.getColor(context, n.getColor()));
         }
+
+
+        holder.ivEntrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DialogFragment dialogFragment = null;
+                String tag = "";
+
+                Bundle bundleNotif = new Bundle();
+                bundleNotif.putString("dni_estudiante", n.getDniEstudiante());
+                bundleNotif.putInt("id_notificacion", n.getIdNofiticacion());
+                bundleNotif.putString("titulo", n.getTitulo());
+                bundleNotif.putString("descripcion", n.getDescripcion());
+                bundleNotif.putString("f_envio", n.getFechaEnvio());
+                bundleNotif.putString("tipo", n.getTipo());
+                if (n.getTipo().equals("comunicado")) {
+                    //DialogFragment dialogFragment = new ComunicadoFragment();
+                    tag = "ComunicadoFragment";
+                } else /*if (!n.getEstado().equals('V'))*/ {
+                    bundleNotif.putString("f_limite", n.getFechaLimite());
+                    bundleNotif.putChar("estado", n.getEstado());
+                    bundleNotif.putInt("color", n.getColor());
+                    bundleNotif.putString("estado_completo", n.getEstadoCompleto());
+                    bundleNotif.putInt("ic_estado", n.getIconoEstado());
+                    if (n.getTipo().equals("citacion")) {
+                        dialogFragment = new ConfirmarCitacionFragment();
+                        tag = "ConfirmarCitacionFragment";
+                    } else {
+                        //dialogFragment = new AprobarPermisoFragment();
+                        tag = "AprobarPermisoFragment";
+                    }
+                }
+
+                if (dialogFragment != null) {
+                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    dialogFragment.setArguments(bundleNotif);
+                    dialogFragment.show(fragmentManager, tag);
+                }
+            }
+        });
     }
 
     @Override

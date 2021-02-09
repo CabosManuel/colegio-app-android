@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import pe.mariaparadodebellido.R;
+import pe.mariaparadodebellido.fragments.AprobarPermisoFragment;
 import pe.mariaparadodebellido.fragments.ConfirmarCitacionFragment;
 import pe.mariaparadodebellido.model.Notificacion;
 
@@ -134,6 +135,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                 DialogFragment dialogFragment = null;
                 String tag = "";
 
+                // Almacenar todos los datos en un Bundle que se enviará al DialogFragment
                 Bundle bundleNotif = new Bundle();
                 bundleNotif.putString("dni_estudiante", n.getDniEstudiante());
                 bundleNotif.putInt("id_notificacion", n.getIdNofiticacion());
@@ -141,10 +143,12 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                 bundleNotif.putString("descripcion", n.getDescripcion());
                 bundleNotif.putString("f_envio", n.getFechaEnvio());
                 bundleNotif.putString("tipo", n.getTipo());
+
+                // Diferenciar entre tipos de notificaciones
                 if (n.getTipo().equals("comunicado")) {
                     //DialogFragment dialogFragment = new ComunicadoFragment();
                     tag = "ComunicadoFragment";
-                } else /*if (!n.getEstado().equals('V'))*/ {
+                } else {
                     bundleNotif.putString("f_limite", n.getFechaLimite());
                     bundleNotif.putChar("estado", n.getEstado());
                     bundleNotif.putInt("color", n.getColor());
@@ -154,7 +158,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                         dialogFragment = new ConfirmarCitacionFragment();
                         tag = "ConfirmarCitacionFragment";
                     } else {
-                        //dialogFragment = new AprobarPermisoFragment();
+                        dialogFragment = new AprobarPermisoFragment();
                         tag = "AprobarPermisoFragment";
                     }
                 }

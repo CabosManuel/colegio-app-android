@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/chip_celeste"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="24dp"
+    tools:context=".fragments.AprobarPermisoFragment">
+
+    <TextView
+        android:id="@+id/tv_per_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reunión de padres #00"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_per_descripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/parrafo_test_largo"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_per_titulo" />
+
+    <TextView
+        android:id="@+id/tv_per_t_fecha_limite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Fecha límite:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_per_descripcion" />
+
+    <TextView
+        android:id="@+id/tv_per_fecha_limite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="12:12 pm 12/12"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tv_per_t_fecha_limite"
+        app:layout_constraintTop_toTopOf="@id/tv_per_t_fecha_limite" />
+
+    <TextView
+        android:id="@+id/tv_per_estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:paddingVertical="3dp"
+        android:text="Pendiente"
+        android:textColor="@color/rojo_pendiente"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_per_estado"
+        app:layout_constraintTop_toBottomOf="@id/tv_per_t_fecha_limite" />
+
+    <ImageView
+        android:id="@+id/iv_per_estado"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_estado_pendiente"
+        app:layout_constraintBottom_toBottomOf="@id/tv_per_estado"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_per_estado" />
+
+    <TextView
+        android:id="@+id/tv_per_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="11:00 pm 10/12"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_per_estado" />
+
+    <TextView
+        android:id="@+id/tv_per_guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Guardar"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_per_fecha"
+        app:layout_constraintEnd_toStartOf="@+id/tv_per_cancelar"
+        app:layout_constraintTop_toTopOf="@+id/tv_per_fecha" />
+
+    <TextView
+        android:id="@+id/tv_per_cancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_per_fecha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_per_fecha" />
+
+    <Switch
+        android:id="@+id/swi_aprobacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aprobar permiso"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_per_estado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_per_estado" />
+</androidx.constraintlayout.widget.ConstraintLayout>

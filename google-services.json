@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "764658754403",
+    "project_id": "mpb-firebase-storage",
+    "storage_bucket": "mpb-firebase-storage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764658754403:android:0040e1da78e00c50902956",
+        "android_client_info": {
+          "package_name": "pe.mariaparadodebellido"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764658754403-8pplerge9r9ohd7nc6mki0fu0uev1a0d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pe.mariaparadodebellido",
+            "certificate_hash": "0a3ca6506bb9355ff826f1d3075a1ce5d7eb9b46"
+          }
+        },
+        {
+          "client_id": "764658754403-s6h2mdfiul114u897pq7drejvm5scqmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVu5dLel-JxtXacm7uIqvi2ze9TVLcx6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764658754403-s6h2mdfiul114u897pq7drejvm5scqmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

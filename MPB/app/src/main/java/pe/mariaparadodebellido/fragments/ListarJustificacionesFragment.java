@@ -38,8 +38,6 @@ import pe.mariaparadodebellido.model.Estudiante;
 import pe.mariaparadodebellido.model.Justificacion;
 import pe.mariaparadodebellido.util.Url;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class ListarJustificacionesFragment extends Fragment {
 
     private ArrayList<Justificacion> justificaciones = new ArrayList<>();

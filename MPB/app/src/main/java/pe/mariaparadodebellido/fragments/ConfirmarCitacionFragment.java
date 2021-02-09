@@ -126,7 +126,7 @@ public class ConfirmarCitacionFragment extends DialogFragment implements View.On
     }
 
     private void confirmarCitacion(Integer citacionId, Character estado) {
-        String url = Url.URL_BASE + "/idat/rest/notificacion/citacion/" + citacionId + "/" + estado;
+        String url = Url.URL_BASE + "/idat/rest/notificacion/cambiar_estado/" + citacionId + "/" + estado;
 
         JsonObjectRequest peticion = new JsonObjectRequest(
                 Request.Method.PUT, url, null,
@@ -138,7 +138,6 @@ public class ConfirmarCitacionFragment extends DialogFragment implements View.On
                         } else {
                             Toast.makeText(getActivity(), "Citación rechazada", Toast.LENGTH_SHORT).show();
                         }
-                        BandejaEntradaFragment bdf = new BandejaEntradaFragment();
 
                         dismiss();
                     }
@@ -146,6 +145,7 @@ public class ConfirmarCitacionFragment extends DialogFragment implements View.On
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                Toast.makeText(getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(peticion);

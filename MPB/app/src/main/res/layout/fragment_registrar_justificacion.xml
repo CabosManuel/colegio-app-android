@@ -18,8 +18,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="24dp"
-            android:focusable="true" android:focusableInTouchMode="true">
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="24dp">
 
             <TextView
                 android:id="@+id/txt_just"
@@ -50,13 +51,13 @@
                 android:id="@+id/txttitulo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:maxLength="32"
-                android:inputType="text"
-                android:hint="Ingrese un titulo"
-                android:backgroundTint="@color/azul"
-                android:textSize="18sp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/azul"
+                android:hint="Ingrese un titulo"
+                android:inputType="text"
+                android:maxLength="32"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_rj_titulo"
                 app:layout_constraintTop_toBottomOf="@+id/txt_just" />
@@ -71,8 +72,8 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/txttitulo"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txttitulo" />
 
             <Spinner
                 android:id="@+id/sp_rj_estudiantes"
@@ -110,12 +111,12 @@
                 android:id="@+id/txt_FechaInasistencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20/12/2020"
-                android:inputType="date"
-                android:textAlignment="center"
-                android:focusable="false"
-                android:backgroundTint="@color/azul"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="@color/azul"
+                android:focusable="false"
+                android:inputType="date"
+                android:text="20/12/2020"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_condicional" />
@@ -126,9 +127,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Justificación:"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_FechaInasistencia" />
 
@@ -147,15 +148,15 @@
                 android:id="@+id/txt_Justificacion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:hint="Escribir justificación..."
-                android:minLines="4"
-                android:maxLines="6"
-                android:maxLength="500"
-                android:gravity="top|left"
-                android:scrollbars="vertical"
-                android:backgroundTint="@color/azul"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="@color/azul"
+                android:gravity="top|left"
+                android:hint="Escribir justificación..."
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:maxLines="6"
+                android:minLines="4"
+                android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_desc" />
@@ -200,10 +201,10 @@
                 android:id="@+id/btn_borrar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/rojo_falta"
                 android:text="Borrar"
                 android:textAllCaps="false"
-                android:backgroundTint="@color/rojo_falta"
-                android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/gl_reg_jsut"
                 app:layout_constraintTop_toTopOf="@id/btn_seleccionar" />
@@ -220,11 +221,11 @@
                 android:id="@+id/btn_Enviar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
                 android:inputType="textCapCharacters"
                 android:text="Enviar"
                 app:backgroundTint="@color/azul"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/gl_reg_jsut"
                 app:layout_constraintTop_toBottomOf="@+id/btn_seleccionar" />
 

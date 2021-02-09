@@ -67,8 +67,8 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
     private static final int REQUEST_IMAGE_GALLERY = 101;
 
     // Carpeta de imagenes en Firebase
+    private FirebaseStorage storage = FirebaseStorage.getInstance(); // Ubicación base (bucket?)
     private final String RUTA = "justificaciones/";
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     // Codigo de confirmación para una nueva imagen
     public final Integer NUEVA_IMAGEN = 1;
@@ -86,21 +86,9 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
 
     RequestQueue Justi_queue;
 
-    public RegistrarJustificacionFragment() {
-        // Required empty public constructor
-    }
-
-    public static RegistrarJustificacionFragment newInstance(String param1, String param2) {
-        RegistrarJustificacionFragment fragment = new RegistrarJustificacionFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewFragment = inflater.inflate(R.layout.fragment_registrar_justificacion, container, false);
 
         try {
@@ -156,28 +144,9 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
                 limpiar();
                 break;
             default: // btnSeleccionar y ivImagen
-                // Toast.makeText(getContext(), "default", Toast.LENGTH_SHORT).show();
                 abrirGaleria();
                 break;
         }
-    }
-
-    public boolean validar() {
-        boolean valido = true;
-        String jjustificacion, jtitulo;
-        jtitulo = txttitulo.getText().toString();
-        jjustificacion = txtJustificacion.getText().toString();
-
-        if (jtitulo.isEmpty()) {
-            txttitulo.setError("Este campo no puede quedar vacio.");
-            valido = false;
-        }
-        if (jjustificacion.isEmpty()) {
-            txtJustificacion.setError("Este campo no puede quedar vacio.");
-            valido = false;
-        }
-
-        return valido;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -240,16 +209,41 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         return nJ;
     }
 
+    // Método para abrir el explorador de archivos solo en imagenes
+    private void abrirGaleria() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*"); // solo en imagenes
+        startActivityForResult(intent, REQUEST_IMAGE_GALLERY); // 1. se envia REQUEST_IMAGE_GALLERY
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 2. se recibe y compara si es igual al REQUEST_IMAGE_GALLERY
+        // y si hay data
+        if (requestCode == REQUEST_IMAGE_GALLERY && data != null) {
+            Uri imagen = data.getData();
+            ivImagen.setImageURI(imagen);
+            ivImagen.setTag(NUEVA_IMAGEN);
+        } else {
+            Log.e("TAG", "Resultado: " + resultCode);
+            Toast.makeText(getContext(), "No ha seleccionado una foto.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Método para enviar la imagen a Firebase Storage
     private void guardarImagen(Integer justificacionId) {
         StorageReference storageRef = storage.getReference();
         StorageReference nuevaImagenRef = storageRef.child(RUTA + LocalDate.from(fechaEnvio) + "_" + justificacionId + ".jpg");
 
+        // Capturar imagen en bytes ----------------------------------------------------------------
         ivImagen.setDrawingCacheEnabled(true);
         ivImagen.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) ivImagen.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
+        // -----------------------------------------------------------------------------------------
 
         UploadTask uploadTask = nuevaImagenRef.putBytes(data);
 
@@ -268,26 +262,26 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_GALLERY && data != null) {
-            Uri imagen = data.getData();
-            ivImagen.setImageURI(imagen);
-            ivImagen.setTag(NUEVA_IMAGEN);
-        } else {
-            Log.e("TAG", "Resultado: " + resultCode);
-            Toast.makeText(getContext(), "No ha seleccionado una foto.", Toast.LENGTH_SHORT).show();
+    public boolean validar() {
+        boolean valido = true;
+        String jjustificacion, jtitulo;
+        jtitulo = txttitulo.getText().toString();
+        jjustificacion = txtJustificacion.getText().toString();
+
+        if (jtitulo.isEmpty()) {
+            txttitulo.setError("Este campo no puede quedar vacio.");
+            valido = false;
         }
+        if (jjustificacion.isEmpty()) {
+            txtJustificacion.setError("Este campo no puede quedar vacio.");
+            valido = false;
+        }
+
+        return valido;
     }
 
-    private void abrirGaleria() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
-    }
-
-    private void limpiar(){
+    // Método para limpiar campos de la vista
+    private void limpiar() {
         txttitulo.setText("");
         spEstudiantes.setSelection(0);
         txtFechaInasistencia.setText(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now().plusDays(1)));
@@ -308,11 +302,13 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         btnCancelar.setEnabled(estado);
     }
 
-    private void borrarImagen(){
+    // Método para reemplazar imagen nueva por "seleccionar_imagen.png"
+    private void borrarImagen() {
         ivImagen.setImageResource(R.drawable.seleccionar_imagen);
         ivImagen.setTag(R.drawable.seleccionar_imagen);
     }
 
+    // Métodos para el spinner de Estudiantes ---------
     private void getEstudiantes() {
         String url = Url.URL_BASE + "/idat/rest/apoderados/nombre_estudiantes/" + dniApoderado;
         Justi_queue = Volley.newRequestQueue(getContext());
@@ -345,7 +341,6 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
         });
         Justi_queue.add(peticion);
     }
-
     private void llenarSpinner() {
         /*
          *  Elspinner se llena solo con el "nombre" porque al model Estudiante se le está sobreescribiendo
@@ -371,6 +366,7 @@ public class RegistrarJustificacionFragment extends Fragment implements View.OnC
             }
         });
     }
+    // ------------------------------------------------
 
     // Método para funcionalidad del Calendario de "txtFechaInasistencia"
     @RequiresApi(api = Build.VERSION_CODES.O)

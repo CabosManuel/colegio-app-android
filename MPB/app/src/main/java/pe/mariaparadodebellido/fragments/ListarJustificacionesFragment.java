@@ -132,6 +132,7 @@ public class ListarJustificacionesFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray jsonArray) {
                         try {
+                            estudiantes = new ArrayList<>();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject objjson = jsonArray.getJSONObject(i);
                                 estudiantes.add(new Estudiante(

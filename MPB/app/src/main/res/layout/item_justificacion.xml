@@ -6,22 +6,24 @@
     android:layout_height="wrap_content"
     android:elevation="15dp"
     app:cardCornerRadius="10dp"
+    android:id="@+id/card_justificacion"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rosado_justificación"
-        android:padding="18dp">
+        android:background="@color/rosado_justificación">
 
         <TextView
             android:id="@+id/Id_titulo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="Justificación #1"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/id_fecha"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,26 +33,38 @@
             android:id="@+id/id_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:text="03:16 pm 10/12"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@+id/Id_titulo"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/Id_titulo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/id_descripcion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="sans-serif-light"
+            android:paddingBottom="16dp"
             android:text="Buenas tardes, el motivo de la inasistencia de mi menor hija es por motivo de salud. Desde las 7:00 hasta las 7:30 fuimos al hospital porque se sentiía mal, le diagnosticaron una laringitis aguda."
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Id_titulo"
-            app:layout_constraintVertical_bias="0.062" />
+            app:layout_constraintTop_toBottomOf="@+id/Id_titulo" />
+
+        <ImageView
+            android:id="@+id/iv_justificacion"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/id_descripcion" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

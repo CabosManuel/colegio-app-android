@@ -13,6 +13,13 @@ public class Justificacion {
     public Justificacion() {
     }
 
+    public Justificacion(Integer justificacionId, String titulo, String fechaEnvio, String descripcion) {
+        this.justificacionId = justificacionId;
+        this.titulo = titulo;
+        this.fechaEnvio = fechaEnvio;
+        this.descripcion = descripcion;
+    }
+
     public Justificacion(Integer justificacionId, String titulo, String fechaEnvio, String fechaJustificacion, String dniEstudiante, String descripcion) {
         this.justificacionId = justificacionId;
         this.titulo = titulo;
@@ -68,6 +75,18 @@ public class Justificacion {
 
     public void setDniEstudiante(String dniEstudiante) {
         this.dniEstudiante = dniEstudiante;
+    }
+
+    @Override
+    public String toString() {
+        return "Justificacion{" +
+                "justificacionId=" + justificacionId +
+                ", titulo='" + titulo + '\'' +
+                ", fechaEnvio='" + fechaEnvio + '\'' +
+                ", fechaJustificacion='" + fechaJustificacion + '\'' +
+                ", dniEstudiante='" + dniEstudiante + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
     }
 }
 

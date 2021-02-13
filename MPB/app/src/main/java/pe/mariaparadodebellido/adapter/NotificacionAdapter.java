@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import pe.mariaparadodebellido.R;
 import pe.mariaparadodebellido.fragments.AprobarPermisoFragment;
+import pe.mariaparadodebellido.fragments.ComunicadoFragment;
 import pe.mariaparadodebellido.fragments.ConfirmarCitacionFragment;
 import pe.mariaparadodebellido.model.Notificacion;
 
@@ -146,7 +147,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
 
                 // Diferenciar entre tipos de notificaciones
                 if (n.getTipo().equals("comunicado")) {
-                    //DialogFragment dialogFragment = new ComunicadoFragment();
+                    dialogFragment = new ComunicadoFragment();
                     tag = "ComunicadoFragment";
                 } else {
                     bundleNotif.putString("f_limite", n.getFechaLimite());

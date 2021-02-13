@@ -17,6 +17,16 @@ public class Notificacion {
     public Notificacion() {
     }
 
+    public Notificacion(Integer idNofiticacion, String tipo, String fechaEnvio, String titulo, String descripcion, String dniEstudiante, Integer color) {
+        this.idNofiticacion = idNofiticacion;
+        this.tipo = tipo;
+        this.fechaEnvio = fechaEnvio;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.dniEstudiante = dniEstudiante;
+        this.color = color;
+    }
+
     public Notificacion(Integer idNofiticacion, String tipo, String fechaEnvio, String fechaLimite, String titulo, String descripcion, Character estado, String dniEstudiante) {
         this.idNofiticacion = idNofiticacion;
         this.tipo = tipo;

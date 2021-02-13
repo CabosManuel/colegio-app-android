@@ -116,7 +116,7 @@ public class PerfilEstudianteFragment extends Fragment implements View.OnClickLi
     // Método para actualizar estudiante en la BD
     private void actualizarEstudiante() {
         colaPeticiones = Volley.newRequestQueue(getContext());
-        String url = Url.URL_BASE + "/idat/rest/estudiante/editar_perfil/" + dniEstudiante;
+        String url = Url.URL_BASE + "/idat/rest/estudiante/editar/" + dniEstudiante;
         JSONObject parametroJson = new JSONObject(capturarDatosActualizados());
         JsonObjectRequest peticion = new JsonObjectRequest(
                 Request.Method.PUT, url,

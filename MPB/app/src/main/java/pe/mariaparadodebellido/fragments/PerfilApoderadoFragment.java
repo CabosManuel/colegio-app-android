@@ -125,17 +125,15 @@ public class PerfilApoderadoFragment extends Fragment implements View.OnClickLis
     // Método para actualizar apoderado en la BD
     private void actualizarApoderado() {
         colaPeticiones = Volley.newRequestQueue(getContext());
-        String url = Url.URL_BASE + "/idat/rest/apoderados/editar_perfil/" + dniApoderado;
+        String url = Url.URL_BASE + "/idat/rest/apoderados/editar/" + dniApoderado;
         JSONObject parametroJson = new JSONObject(capturarDatosActualizados());
         JsonObjectRequest peticion = new JsonObjectRequest(
                 Request.Method.PUT, url,
                 parametroJson,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject datosRespuesta) {
+                    public void onResponse(JSONObject usuarioJson) {
                         try {
-                            JSONObject usuarioJson = datosRespuesta.getJSONObject("apoderado");
-
                             // Actualizar datos en sesión
                             SharedPreferences.Editor editor = getActivity().getSharedPreferences("info_usuario", Context.MODE_PRIVATE).edit();
                             editor.putString("usuario", usuarioJson.toString());

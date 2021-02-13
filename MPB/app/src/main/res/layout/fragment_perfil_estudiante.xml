@@ -87,7 +87,7 @@
                     android:id="@+id/et_e_nombres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:digits="abcdefghijklmnñopqrstuvwxyzáéíóúABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:background="@color/white"
                     android:enabled="false"
                     android:hint="Nombres"
@@ -119,7 +119,7 @@
                     android:hint="Apellidos"
                     android:maxLength="45"
                     android:maxLines="1"
-                    android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:digits="abcdefghijklmnñopqrstuvwxyzáéíóúABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:text="Apellido1 Apellido2"
                     android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>

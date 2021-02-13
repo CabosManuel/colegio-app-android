@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,8 +94,6 @@ public class JustificacionAdapter extends  RecyclerView.Adapter<JustificacionAda
         holder.cvJustificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("on click");
-                System.out.println(justificacion.toString());
                 Bundle bundleJusti = new Bundle();
                 bundleJusti.putInt("id_justificacion", justificacion.getJustificacionId());
                 bundleJusti.putString("titulo", justificacion.getTitulo());
